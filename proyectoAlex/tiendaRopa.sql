@@ -11,6 +11,7 @@ userName VARCHAR(45) NOT NULL,
 password VARCHAR(100) NOT NULL,
 fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ -- me falta agregar el rol de usuario o admin
 
 CREATE TABLE Producto (
 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,7 +27,7 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 precioTotal DECIMAL(10,2),
 fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 idUsuario INT NOT NULL,
-FOREIGN KEY (idUsuario) REFERENCES Usuarios(id)
+FOREIGN KEY (idUsuario) REFERENCES Usuario(id)
 );
 
 CREATE TABLE RealizarPedido(
@@ -35,7 +36,7 @@ cantidad INT NOT NULL,
 subtotal DECIMAL(10,2) NOT NULL,
 idPedido INT NOT NULL,
 idProducto INT NOT NULL,
-FOREIGN KEY (idPedido) REFERENCES Pedidos(id),
-FOREIGN KEY (idProducto) REFERENCES Productos(id)
+FOREIGN KEY (idPedido) REFERENCES Pedido(id),
+FOREIGN KEY (idProducto) REFERENCES Producto(id)
 );
 -- DROP database tiendaRopa;
