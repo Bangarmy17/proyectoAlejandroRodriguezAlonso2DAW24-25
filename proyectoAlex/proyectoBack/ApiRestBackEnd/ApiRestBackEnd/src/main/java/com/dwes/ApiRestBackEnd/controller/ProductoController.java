@@ -3,10 +3,7 @@ package com.dwes.ApiRestBackEnd.controller;
 import com.dwes.ApiRestBackEnd.model.Producto;
 import com.dwes.ApiRestBackEnd.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,13 @@ public class ProductoController {
     @PostMapping("/crearProductos")
     public Producto crearProducto(Producto producto){
         return productoService.crearProducto(producto);
+    }
+    @GetMapping("/obtenerProductoPorId/{id}")
+    public Producto obtenerProductoPorId(@RequestParam long id){
+        return productoService.buscarProductoPorId(id);
+    }
+    @PostMapping("/modificarProductoPorId/{id}")
+    public Producto modificarProductoPorId(Producto producto, @RequestParam long id){
+        return productoService.modificarProductoPorId(producto,id);
     }
 }
