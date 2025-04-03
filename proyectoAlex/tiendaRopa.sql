@@ -1,0 +1,41 @@
+CREATE DATABASE tiendaRopa;
+USE tiendaRopa;
+
+CREATE TABLE Usuarios (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(45) NOT NULL,
+apellidos VARCHAR(100) NOT NULL,
+email VARCHAR(45) NOT NULL,
+direccion TEXT,
+userName VARCHAR(45) NOT NULL,
+password VARCHAR(100) NOT NULL,
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Productos(
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(45) NOT NULL,
+descripcion TEXT,
+precio DECIMAL(10,2) NOT NULL,
+stock INT NOT NULL,
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Pedidos(
+id INT AUTO_INCREMENT PRIMARY KEY,
+precioTotal DECIMAL(10,2),
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+idUsuario INT NOT NULL,
+FOREIGN KEY (idUsuario) REFERENCES Usuarios(id)
+);
+
+CREATE TABLE RealizarPedido(
+id INT AUTO_INCREMENT PRIMARY KEY,
+cantidad INT NOT NULL,
+subtotal DECIMAL(10,2) NOT NULL,
+idPedido INT NOT NULL,
+idProducto INT NOT NULL,
+FOREIGN KEY (idPedido) REFERENCES Pedidos(id),
+FOREIGN KEY (idProducto) REFERENCES Productos(id)
+);
+-- DROP database tiendaRopa;
