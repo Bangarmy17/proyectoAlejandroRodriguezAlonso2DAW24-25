@@ -1,8 +1,10 @@
 package com.dwes.ApiRestBackEnd.controller;
 
+import com.dwes.ApiRestBackEnd.dto.ProductoRequestDTO;
 import com.dwes.ApiRestBackEnd.model.Producto;
 import com.dwes.ApiRestBackEnd.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +20,8 @@ public class ProductoController {
     }
 
     @GetMapping("/listadoProductos")
-    public List<Producto> listarProductos(){
-        List<Producto> productos = productoService.listarTodosProductos();
+    public List<ProductoRequestDTO> listarProductos(){
+        List<ProductoRequestDTO> productos = productoService.listarTodosProductos();
         return productos;
     }
     @PostMapping("/crearProductos")
@@ -27,11 +29,30 @@ public class ProductoController {
         return productoService.crearProducto(producto);
     }
     @GetMapping("/obtenerProductoPorId/{id}")
-    public Producto obtenerProductoPorId(@RequestParam long id){
+    public ProductoRequestDTO obtenerProductoPorId(@RequestParam long id){
         return productoService.buscarProductoPorId(id);
     }
-    @PostMapping("/modificarProductoPorId/{id}")
+    @PutMapping("/modificarProductoPorId/{id}")
     public Producto modificarProductoPorId(Producto producto, @RequestParam long id){
         return productoService.modificarProductoPorId(producto,id);
+    }
+    @DeleteMapping("/borrar/{id}")
+    public ResponseEntity<Void> borrarProductoById(@RequestParam long id){
+        try{
+            productoService.buscarProductoPorId(id);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/borrar")
+    public ResponseEntity<Void> borrarAllProductos(){
+        try {
+            productoService.borrarAllProductos();
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }

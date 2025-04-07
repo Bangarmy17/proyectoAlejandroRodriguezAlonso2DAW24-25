@@ -3,6 +3,9 @@ SELECT *
 FROM usuario;
 
 SELECT *
+FROM producto;
+
+SELECT *
 FROM usuario AS u
 WHERE u.id = 1;
 

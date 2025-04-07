@@ -1,5 +1,7 @@
 package com.dwes.ApiRestBackEnd.controller;
 
+import com.dwes.ApiRestBackEnd.dto.UsuarioFormateadoRequestDTO;
+import com.dwes.ApiRestBackEnd.dto.UsuarioFullInfoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.UsuarioRequestDTO;
 import com.dwes.ApiRestBackEnd.model.Usuario;
 import com.dwes.ApiRestBackEnd.service.UsuarioService;
@@ -19,7 +21,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
     @GetMapping("/listadoUsuarios")
-    public List<Usuario> mostrarTodosUsuarios(){
+    public List<UsuarioFormateadoRequestDTO> mostrarTodosUsuarios(){
         return usuarioService.obtenerTodosLosUsuarios();
     }
     @PostMapping("/crearUsuarios")
@@ -27,21 +29,30 @@ public class UsuarioController {
         return usuarioService.crearUsuario(usuario);
     }
     @GetMapping("/obtenerUsuarioPorId/{id}")
-    public Usuario obtenerUsuarioPorId(@RequestParam long id){
+    public UsuarioFullInfoRequestDTO obtenerUsuarioPorId(@RequestParam long id){
         return usuarioService.mostrarUsuarioPorId(id);
     }
     @GetMapping("/obtenerCorreoPasswdYUsername")
     public List<UsuarioRequestDTO> obtenerCorreoPasswdYUsername(){
         return usuarioService.obtenerCorreoContraYUsername();
     }
-    @PostMapping("/modificarPorId/{id}")
+    @PutMapping("/modificarPorId/{id}")
     public Usuario modificarUsuarioPorId(Usuario usuario, @RequestParam long id){
         return usuarioService.modificarUsuarioPorId(usuario, id);
     }
-    @DeleteMapping("/borrarPorId/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<Void> borrarUsuarioById(@RequestParam long id){
         try{
             usuarioService.borrarUsuarioPorId(id);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("/borrar")
+    public ResponseEntity<Void> borrarTodos(){
+        try{
+            usuarioService.borrarAllUsuarios();
             return ResponseEntity.ok().build();
         } catch (RuntimeException e){
             return ResponseEntity.notFound().build();

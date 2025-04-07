@@ -1,5 +1,7 @@
 package com.dwes.ApiRestBackEnd.service;
 
+import com.dwes.ApiRestBackEnd.dto.UsuarioFormateadoRequestDTO;
+import com.dwes.ApiRestBackEnd.dto.UsuarioFullInfoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.UsuarioRequestDTO;
 import com.dwes.ApiRestBackEnd.model.Usuario;
 import com.dwes.ApiRestBackEnd.repository.UsuarioRepository;
@@ -26,11 +28,29 @@ public class UsuarioService {
                 .password(usuario.getPassword())
                 .build();
     }
+    public UsuarioFormateadoRequestDTO mapToRequestDTOFormateado(Usuario usuario){
+        return UsuarioFormateadoRequestDTO.builder()
+                .nombre(usuario.getNombre())
+                .apellidos(usuario.getApellidos())
+                .direccion(usuario.getDireccion())
+                .email(usuario.getEmail())
+                .build();
+    }
+    public UsuarioFullInfoRequestDTO mapToRequestDTOFullInfo(Usuario usuario){
+        return UsuarioFullInfoRequestDTO.builder()
+                .nombre(usuario.getNombre())
+                .apellidos(usuario.getApellidos())
+                .email(usuario.getEmail())
+                .direccion(usuario.getDireccion())
+                .userName(usuario.getUserName())
+                .password(usuario.getPassword())
+                .build();
+    }
     //con la funcion findAll puedo mostrar todos los usuarios
     @Transactional(readOnly = true)
-    public List<Usuario> obtenerTodosLosUsuarios(){
+    public List<UsuarioFormateadoRequestDTO> obtenerTodosLosUsuarios(){
         List<Usuario> usuarioList = usuarioRepository.findAll();
-        return usuarioList;
+        return usuarioList.stream().map(this::mapToRequestDTOFormateado).collect(Collectors.toList());
     }
     //creacion de un usuario
     @Transactional
@@ -39,8 +59,9 @@ public class UsuarioService {
     }
     //Obtencion de un usuario usando el id como parametro llamando a una funcion de JPA repository
     @Transactional(readOnly = true)
-    public Usuario mostrarUsuarioPorId(long id){
-        return usuarioRepository.findById(id).get();
+    public UsuarioFullInfoRequestDTO mostrarUsuarioPorId(long id){
+        Usuario usuario = usuarioRepository.findById(id).get();
+        return mapToRequestDTOFullInfo(usuario);
     }
     @Transactional(readOnly = true)
     public List<UsuarioRequestDTO> obtenerCorreoContraYUsername(){
@@ -81,4 +102,10 @@ public class UsuarioService {
         } //no exista lo que hago es lanzar una excepcion
         usuarioRepository.deleteById(id);
     }
+    //Borrar todos los usuarios
+    @Transactional
+    public void borrarAllUsuarios(){
+        usuarioRepository.deleteAll();
+    }
+
 }

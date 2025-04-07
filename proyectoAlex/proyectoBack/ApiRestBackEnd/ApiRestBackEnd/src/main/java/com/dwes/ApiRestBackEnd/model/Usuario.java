@@ -30,4 +30,8 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos;
+
+    @ManyToOne
+    @JoinColumn(name = "idRol")
+    private Rol rol;
 }
