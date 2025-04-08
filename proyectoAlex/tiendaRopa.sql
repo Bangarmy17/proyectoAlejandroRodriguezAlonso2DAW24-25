@@ -11,7 +11,6 @@ userName VARCHAR(45) NOT NULL,
 password VARCHAR(100) NOT NULL,
 fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
- -- me falta agregar el rol de usuario o admin
 
 CREATE TABLE Producto (
 id INT AUTO_INCREMENT PRIMARY KEY,

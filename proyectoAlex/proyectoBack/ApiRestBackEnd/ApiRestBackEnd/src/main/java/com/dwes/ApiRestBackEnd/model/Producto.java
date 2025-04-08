@@ -17,7 +17,6 @@ public class Producto {
     private long id;
     @NotBlank
     private String nombre;
-    @NotBlank
     private String descripcion;
     @NotNull
     private double precio;

@@ -15,12 +15,10 @@ import java.util.stream.Collectors;
 @Service
 public class ProductoService {
     private ProductoRepository productoRepository;
-
     @Autowired
     public ProductoService(ProductoRepository productoRepository){
         this.productoRepository = productoRepository;
     }
-
     public ProductoRequestDTO mapToRequestDTO(Producto producto){
         return ProductoRequestDTO.builder()
                 .nombre(producto.getNombre())
@@ -28,22 +26,21 @@ public class ProductoService {
                 .stock(producto.getStock())
                 .build();
     }
-
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //get
     public List<ProductoRequestDTO> listarTodosProductos(){
         List<Producto> productos = productoRepository.findAll();
         return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
-    @Transactional
+    @Transactional //post
     public Producto crearProducto(Producto producto){
         return productoRepository.save(producto);
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //get
     public ProductoRequestDTO buscarProductoPorId(long id){
         Producto producto = productoRepository.findById(id).get();
         return mapToRequestDTO(producto);
     }
-    @Transactional
+    @Transactional //put
     public Producto modificarProductoPorId(Producto producto, long id){
         Producto productoNuevo = productoRepository.findById(id).get();
         if(Objects.nonNull(producto.getNombre()) && !"".equalsIgnoreCase(producto.getNombre())){
@@ -60,8 +57,7 @@ public class ProductoService {
         }
         return productoRepository.save(productoNuevo);
     }
-
-    @Transactional
+    @Transactional //delete
     public void borrarProdPorId(long id){
         Optional<Producto> producto = productoRepository.findById(id);
         if(!producto.isPresent()){
@@ -69,7 +65,7 @@ public class ProductoService {
         }
         productoRepository.deleteById(id);
     }
-    @Transactional
+    @Transactional //delete
     public void borrarAllProductos(){
         productoRepository.deleteAll();
     }
