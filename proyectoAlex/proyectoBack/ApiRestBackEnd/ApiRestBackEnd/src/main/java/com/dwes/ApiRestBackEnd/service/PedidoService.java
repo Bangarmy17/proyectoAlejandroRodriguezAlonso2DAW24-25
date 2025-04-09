@@ -1,7 +1,6 @@
 package com.dwes.ApiRestBackEnd.service;
 
 import com.dwes.ApiRestBackEnd.dto.PedidoRequestDTO;
-import com.dwes.ApiRestBackEnd.dto.ProductoPedidoDTO;
 import com.dwes.ApiRestBackEnd.model.Pedido;
 import com.dwes.ApiRestBackEnd.model.Producto;
 import com.dwes.ApiRestBackEnd.model.RealizarPedido;
@@ -41,12 +40,11 @@ public class PedidoService {
                 .nombreUsuario(usuario.getNombre())
                 .apellidosUsuario(usuario.getApellidos())
                 .direccionUsuario(usuario.getDireccion())
-                .productos(pedido.getRealizarPedidos().stream().map(realizarPedido ->
-                        ProductoPedidoDTO.builder()
-                                .idProducto(realizarPedido.getProducto().getId())
-                                .cantidad(realizarPedido.getCantidad())
-                                .build()).collect(Collectors.toList()))
-                .build();
+                /*.productos(pedido.getRealizarPedidos()
+               .stream()
+                       .map(RealizarPedido::getProducto)
+                      .collect(Collectors.toList())) */
+        .build();
     }
 
     //POST
@@ -82,14 +80,14 @@ public class PedidoService {
     }
     //GET
     @Transactional(readOnly = true)
-    public Pedido buscarPedidoById(long id){
+    public PedidoRequestDTO buscarPedidoById(long id){
         Pedido pedido = pedidoRepository.findById(id).get();
-        return pedido;
+        return mapToRequestDTO(pedido);
     }//GET
     @Transactional(readOnly = true)
-    public List<Pedido> listarPedidos(){
+    public List<PedidoRequestDTO> listarPedidos(){
         List<Pedido> listadoPedidos = pedidoRepository.findAll();
-        return listadoPedidos;
+        return listadoPedidos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
     //PUT
 

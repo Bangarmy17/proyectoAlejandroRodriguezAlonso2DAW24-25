@@ -39,7 +39,7 @@ public class ProductoController {
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<Void> borrarProductoById(@RequestParam long id){
         try{
-            productoService.buscarProductoPorId(id);
+            productoService.borrarProdPorId(id);
             return ResponseEntity.ok().build();
         } catch (RuntimeException e){
             return ResponseEntity.notFound().build();

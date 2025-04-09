@@ -11,3 +11,6 @@ WHERE u.id = 1;
 
 SELECT u.email, u.userName, u.password
 FROM usuario AS U;
+
+SELECT * FROM pedido;
+SELECT * FROM realizarPedido;

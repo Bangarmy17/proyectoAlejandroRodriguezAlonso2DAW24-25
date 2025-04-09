@@ -26,21 +26,21 @@ public class ProductoService {
                 .stock(producto.getStock())
                 .build();
     }
-    @Transactional(readOnly = true) //get
+    @Transactional(readOnly = true) //GET
     public List<ProductoRequestDTO> listarTodosProductos(){
         List<Producto> productos = productoRepository.findAll();
         return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
-    @Transactional //post
+    @Transactional //POST
     public Producto crearProducto(Producto producto){
         return productoRepository.save(producto);
     }
-    @Transactional(readOnly = true) //get
+    @Transactional(readOnly = true) //GET
     public ProductoRequestDTO buscarProductoPorId(long id){
         Producto producto = productoRepository.findById(id).get();
         return mapToRequestDTO(producto);
     }
-    @Transactional //put
+    @Transactional //PUT
     public Producto modificarProductoPorId(Producto producto, long id){
         Producto productoNuevo = productoRepository.findById(id).get();
         if(Objects.nonNull(producto.getNombre()) && !"".equalsIgnoreCase(producto.getNombre())){
@@ -57,7 +57,7 @@ public class ProductoService {
         }
         return productoRepository.save(productoNuevo);
     }
-    @Transactional //delete
+    @Transactional //DELETE
     public void borrarProdPorId(long id){
         Optional<Producto> producto = productoRepository.findById(id);
         if(!producto.isPresent()){
@@ -65,7 +65,7 @@ public class ProductoService {
         }
         productoRepository.deleteById(id);
     }
-    @Transactional //delete
+    @Transactional //DELETE
     public void borrarAllProductos(){
         productoRepository.deleteAll();
     }

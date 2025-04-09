@@ -21,3 +21,32 @@ INSERT INTO producto (nombre, descripcion, precio, stock, fecha_registro) VALUES
 ('Cinturón Batman', 'Cinturón estilo utilitario con el logo del Caballero Oscuro', 22.99, 10, NOW()),
 ('Reloj de Dragón Ball', 'Reloj de pulsera con el diseño de las esferas del dragón', 34.99, 12, NOW()),
 ('Bolso Totoro', 'Bolso con la adorable figura del personaje Totoro', 25.99, 20, NOW());
+
+-- Pedido de Paco: Compra de 2 camisetas Star Wars y 1 sudadera Harry Potter
+INSERT INTO pedido (precioTotal, fecha_registro, idUsuario) VALUES (69.97, NOW(), 1);
+INSERT INTO realizarpedido (cantidad, subtotal, idPedido, idProducto) VALUES 
+(2, 39.98, 1, 1), 
+(1, 29.99, 1, 2);
+
+-- Pedido de María: Compra de 3 bufandas Doctor Who
+INSERT INTO pedido (precioTotal, fecha_registro, idUsuario) VALUES (44.97, NOW(), 2);
+INSERT INTO realizarpedido (cantidad, subtotal, idPedido, idProducto) VALUES 
+(3, 44.97, 2, 3);
+
+-- Pedido de Luisa: Compra de 1 pijama Pikachu y 2 chaquetas Marvel
+INSERT INTO pedido (precioTotal, fecha_registro, idUsuario) VALUES (104.97, NOW(), 3);
+INSERT INTO realizarpedido (cantidad, subtotal, idPedido, idProducto) VALUES 
+(1, 24.99, 3, 4), 
+(2, 79.98, 3, 5);
+
+-- Pedido de Fernanda: Compra de 1 sombrero Pokémon y 1 reloj de Dragón Ball
+INSERT INTO pedido (precioTotal, fecha_registro, idUsuario) VALUES (50.98, NOW(), 4);
+INSERT INTO realizarpedido (cantidad, subtotal, idPedido, idProducto) VALUES 
+(1, 15.99, 4, 7), 
+(1, 34.99, 4, 9);
+
+-- Pedido de Sara: Compra de 2 bolsos Totoro
+INSERT INTO pedido (precioTotal, fecha_registro, idUsuario) VALUES (51.98, NOW(), 5);
+INSERT INTO realizarpedido (cantidad, subtotal, idPedido, idProducto) VALUES 
+(2, 51.98, 5, 10);
+
