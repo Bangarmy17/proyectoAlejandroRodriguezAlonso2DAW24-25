@@ -26,19 +26,23 @@ public class ProductoService {
                 .stock(producto.getStock())
                 .build();
     }
-    @Transactional(readOnly = true) //GET
-    public List<ProductoRequestDTO> listarTodosProductos(){
-        List<Producto> productos = productoRepository.findAll();
-        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
-    }
     @Transactional //POST
     public Producto crearProducto(Producto producto){
         return productoRepository.save(producto);
     }
     @Transactional(readOnly = true) //GET
+    public List<ProductoRequestDTO> listarTodosProductos(){
+        List<Producto> productos = productoRepository.findAll();
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true) //GET
     public ProductoRequestDTO buscarProductoPorId(long id){
         Producto producto = productoRepository.findById(id).get();
         return mapToRequestDTO(producto);
+    }
+    @Transactional(readOnly = true) //GET
+    public int obtenerStockPorPrecio(double precio){
+        return productoRepository.obtenerStockPorPrecio(precio);
     }
     @Transactional //PUT
     public Producto modificarProductoPorId(Producto producto, long id){
@@ -68,5 +72,31 @@ public class ProductoService {
     @Transactional //DELETE
     public void borrarAllProductos(){
         productoRepository.deleteAll();
+    }
+    //------------------------FILTROS PARA EL USER----------------------------
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> ordenarPorPrecio(){
+        List<Producto> productos = productoRepository.productosOrdenadosPrecio();
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> ordenarPorPrecioDesc(){
+        List<Producto> productos = productoRepository.precioDescendente();
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> buscarPorPrecioMin(double precio){
+        List<Producto> productos = productoRepository.buscarPrecioMinimo(precio);
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> buscarPorPrecioMax(double precio){
+        List<Producto> productos = productoRepository.buscarPrecioMaximo(precio);
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> buscarEntrePrecioMinYMax(double precioMin, double precioMax){
+        List<Producto> productos = productoRepository.buscarPrecioEntreMinYMax(precioMin, precioMax);
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
 }

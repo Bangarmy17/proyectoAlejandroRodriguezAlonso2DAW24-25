@@ -1,7 +1,8 @@
 use tiendaRopa;
 SELECT * 
 FROM usuario;
-
+SELECT *
+FROM rol;
 SELECT *
 FROM producto;
 
@@ -14,3 +15,6 @@ FROM usuario AS U;
 
 SELECT * FROM pedido;
 SELECT * FROM realizarPedido;
+
+SELECT * FROM producto AS p ORDER BY p.precio ASC;
+SELECT * FROM producto AS p ORDER BY p.precio DESC;

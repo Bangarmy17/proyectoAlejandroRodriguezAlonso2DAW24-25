@@ -1,6 +1,7 @@
 package com.dwes.ApiRestBackEnd.service;
 
 import com.dwes.ApiRestBackEnd.dto.PedidoRequestDTO;
+import com.dwes.ApiRestBackEnd.dto.ProductoUserRequestDTO;
 import com.dwes.ApiRestBackEnd.model.Pedido;
 import com.dwes.ApiRestBackEnd.model.Producto;
 import com.dwes.ApiRestBackEnd.model.RealizarPedido;
@@ -12,6 +13,7 @@ import com.dwes.ApiRestBackEnd.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +34,14 @@ public class PedidoService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    public ProductoUserRequestDTO mapToRequestDTO2(Producto producto){
+        return ProductoUserRequestDTO.builder()
+                .nombre(producto.getNombre())
+                .precio(producto.getPrecio())
+                //.cantidad(producto)
+                .build();
+    }
+
     public PedidoRequestDTO mapToRequestDTO(Pedido pedido){
         Usuario usuario = pedido.getUsuario();
         return PedidoRequestDTO.builder()
@@ -40,16 +50,18 @@ public class PedidoService {
                 .nombreUsuario(usuario.getNombre())
                 .apellidosUsuario(usuario.getApellidos())
                 .direccionUsuario(usuario.getDireccion())
-                /*.productos(pedido.getRealizarPedidos()
-               .stream()
-                       .map(RealizarPedido::getProducto)
-                      .collect(Collectors.toList())) */
-        .build();
+                .productos(pedido.getRealizarPedidos() == null ?
+                        List.of() :
+                        pedido.getRealizarPedidos().stream()
+                                .map(RealizarPedido::getProducto)
+                                .map(this::mapToRequestDTO2)
+                                .collect(Collectors.toList()))
+                .build();
     }
 
     //POST
     @Transactional
-    public Pedido crearPedido(Long idUsuario, List<RealizarPedido> prodsDelPedido){
+    public Pedido crearPedido(@RequestParam Long idUsuario, List<RealizarPedido> prodsDelPedido){
         Usuario usuario = usuarioRepository.findById(idUsuario).get(); //obtengo el usuario que realizrá el pedido
         Pedido pedido = new Pedido(); //creo un objeto pedido
         pedido.setUsuario(usuario); //le asigni el usuario
@@ -98,7 +110,7 @@ public class PedidoService {
         if(!pedidos.isPresent()){
             throw new RuntimeException("ERROR el no existe un usuario con ese ID");
         }
-        pedidoRepository.findById(id);
+        pedidoRepository.deleteById(id);
     }
     //DELETE
     @Transactional

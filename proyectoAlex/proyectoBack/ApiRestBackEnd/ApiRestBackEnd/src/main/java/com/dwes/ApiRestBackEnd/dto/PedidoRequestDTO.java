@@ -14,6 +14,6 @@ public class PedidoRequestDTO {
     private String nombreUsuario;
     private String apellidosUsuario;
     private String direccionUsuario;
-    private List<Producto> productos;
+    private List<ProductoUserRequestDTO> productos;
 }
 

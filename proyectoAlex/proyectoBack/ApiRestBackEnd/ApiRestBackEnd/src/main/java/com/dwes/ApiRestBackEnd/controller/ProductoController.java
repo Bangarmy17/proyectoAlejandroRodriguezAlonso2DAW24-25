@@ -32,6 +32,10 @@ public class ProductoController {
     public ProductoRequestDTO obtenerProductoPorId(@RequestParam long id){
         return productoService.buscarProductoPorId(id);
     }
+    @GetMapping("/obtenerStockPorPrecio")
+    public int obtenerStockPorPrecio(@RequestParam double precio){
+        return productoService.obtenerStockPorPrecio(precio);
+    }
     @PutMapping("/modificarProductoPorId/{id}")
     public Producto modificarProductoPorId(Producto producto, @RequestParam long id){
         return productoService.modificarProductoPorId(producto,id);
@@ -54,5 +58,27 @@ public class ProductoController {
         } catch (RuntimeException e){
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //-----------------------FILTROS--------------------------
+    @GetMapping("/filtrado/precioAsc")
+    public List<ProductoRequestDTO> precioAsc(){
+        return productoService.ordenarPorPrecio();
+    }
+    @GetMapping("/filtrado/precioDes")
+    public List<ProductoRequestDTO> precioDes(){
+        return productoService.ordenarPorPrecioDesc();
+    }
+    @GetMapping("/filtrado/precioMin")
+    public List<ProductoRequestDTO> precioMin(@RequestParam double precio){
+        return productoService.buscarPorPrecioMin(precio);
+    }
+    @GetMapping("/filtrado/precioMax")
+    public List<ProductoRequestDTO> precioMax(@RequestParam double precio){
+        return productoService.buscarPorPrecioMax(precio);
+    }
+    @GetMapping("/filtrado/precioMinYMax")
+    public List<ProductoRequestDTO> precioMinYMax(@RequestParam double precioMin,@RequestParam double precioMax){
+        return productoService.buscarEntrePrecioMinYMax(precioMin, precioMax);
     }
 }
