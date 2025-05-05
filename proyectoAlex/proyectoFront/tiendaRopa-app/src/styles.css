@@ -1,0 +1,47 @@
+.navbar {
+  padding: 2rem;
+  background-color: rgb(52, 52, 52);
+  /* modifico la clase de bootstrap para darle un color diferente a la barra de navegación */
+}
+.navbar-nav .nav-link {
+  /* modifico el color de la fuente para todos los enlaces de la barra */
+  color: white;
+}
+.navbar-nav .nav-item {
+  /* he modificado el color de fondo y hice que las esquinas de los bordes sean un pelín redondeadas */
+  background-color: rgb(116, 38, 116);
+  padding: 5px;
+  border-radius: 5px;
+}
+.navbar-collapse {
+  align-items: center;
+  justify-content: space-between;
+}
+.dropdown .btn {
+  /* le cambió los colores al menú de filtros */
+  background-color: rgb(116, 38, 116);
+  color: white;
+}
+.dropdown .btn:hover {
+  /* para seguir la dinamica de los links también puse que cuando pases el ratón se ponga la fuente de color negro */
+  background-color: rgb(116, 38, 116);
+  color: black;
+}
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+#iconoCarro {
+  font-size: 25px;
+}
+
+#iconoBolsa {
+  font-size: 30px;
+}
+
+#iconoTienda {
+  width: 65px;
+  height: 65px;
+}

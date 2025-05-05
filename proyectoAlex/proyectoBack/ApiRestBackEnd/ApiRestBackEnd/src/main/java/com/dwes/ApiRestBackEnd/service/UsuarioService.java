@@ -3,12 +3,16 @@ package com.dwes.ApiRestBackEnd.service;
 import com.dwes.ApiRestBackEnd.dto.UsuarioFormateadoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.UsuarioFullInfoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.UsuarioRequestDTO;
+import com.dwes.ApiRestBackEnd.model.Rol;
 import com.dwes.ApiRestBackEnd.model.Usuario;
+import com.dwes.ApiRestBackEnd.repository.RolRepository;
 import com.dwes.ApiRestBackEnd.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,9 +21,14 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
     private UsuarioRepository usuarioRepository;
+    private RolRepository rolRepository;
+  //  private PasswordEncoder passwordEncoder;
+    //PasswordEncoder passwordEncoder
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository ){
         this.usuarioRepository = usuarioRepository;
+        this.rolRepository = rolRepository;
+       // this.passwordEncoder = passwordEncoder;
     }
     public UsuarioRequestDTO mapToRequestDTO(Usuario usuario){
         return UsuarioRequestDTO.builder()
@@ -46,27 +55,11 @@ public class UsuarioService {
                 .password(usuario.getPassword())
                 .build();
     }
-    //con la funcion findAll puedo mostrar todos los usuarios
-    @Transactional(readOnly = true)
-    public List<UsuarioFormateadoRequestDTO> obtenerTodosLosUsuarios(){
-        List<Usuario> usuarioList = usuarioRepository.findAll();
-        return usuarioList.stream().map(this::mapToRequestDTOFormateado).collect(Collectors.toList());
-    }
+    //<----------------Metodos que el usuario va a utilizar mediante formularios en el frontend------------------>
     //creacion de un usuario
     @Transactional
     public Usuario crearUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
-    }
-    //Obtencion de un usuario usando el id como parametro llamando a una funcion de JPA repository
-    @Transactional(readOnly = true)
-    public UsuarioFullInfoRequestDTO mostrarUsuarioPorId(long id){
-        Usuario usuario = usuarioRepository.findById(id).get();
-        return mapToRequestDTOFullInfo(usuario);
-    }
-    @Transactional(readOnly = true)
-    public List<UsuarioRequestDTO> obtenerCorreoContraYUsername(){
-        List<UsuarioRequestDTO> lista = usuarioRepository.obtenerCorreoYPasswd();
-        return lista;
     }
 
     //modificar campos del usuario
@@ -93,6 +86,24 @@ public class UsuarioService {
     }
     return usuarioRepository.save(usuarioNuevo);
     }
+    //<--------------------Métodos que el administrador usará---------------------->
+    //con la funcion findAll puedo mostrar todos los usuarios
+    @Transactional(readOnly = true)
+    public List<UsuarioFormateadoRequestDTO> obtenerTodosLosUsuarios(){
+        List<Usuario> usuarioList = usuarioRepository.findAll();
+        return usuarioList.stream().map(this::mapToRequestDTOFormateado).collect(Collectors.toList());
+    }
+    //Obtencion de un usuario usando el id como parametro llamando a una funcion de JPA repository
+    @Transactional(readOnly = true)
+    public UsuarioFullInfoRequestDTO mostrarUsuarioPorId(long id){
+        Usuario usuario = usuarioRepository.findById(id).get();
+        return mapToRequestDTOFullInfo(usuario);
+    }
+    @Transactional(readOnly = true)
+    public List<UsuarioRequestDTO> obtenerCorreoContraYUsername(){
+        List<UsuarioRequestDTO> lista = usuarioRepository.obtenerCorreoYPasswd();
+        return lista;
+    }
     //borrar usuarios por id
     @Transactional
     public void borrarUsuarioPorId(long id){
@@ -107,5 +118,10 @@ public class UsuarioService {
     public void borrarAllUsuarios(){
         usuarioRepository.deleteAll();
     }
-
+    //obetener usuarios sin dto
+    @Transactional(readOnly = true)
+    public List<Usuario> mostrarUsuarios(){
+        List<Usuario> listaUsuarios = usuarioRepository.findAll();
+        return listaUsuarios;
+    }
 }

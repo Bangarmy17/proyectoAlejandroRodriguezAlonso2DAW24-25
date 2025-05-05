@@ -101,8 +101,6 @@ public class PedidoService {
         List<Pedido> listadoPedidos = pedidoRepository.findAll();
         return listadoPedidos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
-    //PUT
-
     //DELETE
     @Transactional
     public void borrarPedidoPorId(long id){

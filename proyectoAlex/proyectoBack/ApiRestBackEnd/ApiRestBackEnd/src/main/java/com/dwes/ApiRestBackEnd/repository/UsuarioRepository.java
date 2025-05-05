@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    List<Usuario>findAll();
+    Usuario save(Usuario usuario);
+
     //consultas personalizadas a la base de datos
     @Query("SELECT u FROM Usuario u WHERE u.nombre=?1")
     List<Usuario> buscarPorNombre(String nombre);

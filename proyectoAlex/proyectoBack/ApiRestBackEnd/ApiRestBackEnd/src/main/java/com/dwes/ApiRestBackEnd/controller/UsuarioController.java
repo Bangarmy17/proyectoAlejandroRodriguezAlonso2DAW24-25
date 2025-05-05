@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//@CrossOrigin(origins = "http://localhost:5173/")
 @RequestMapping("/usuario")
 @RestController
 public class UsuarioController {
@@ -20,9 +21,21 @@ public class UsuarioController {
     public UsuarioController(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
     }
+    /*private ResponseEntity<?> validation(BindingResult result) {
+        Map<String, String> errors = new HashMap<>();
+        result.getFieldErrors().forEach(err -> {
+            errors.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
+        });
+        return ResponseEntity.badRequest().body(errors);
+    }*/
     @GetMapping("/listadoUsuarios")
     public List<UsuarioFormateadoRequestDTO> mostrarTodosUsuarios(){
         return usuarioService.obtenerTodosLosUsuarios();
+    }
+    //este get es de pruebas mias personales
+    @GetMapping("/listadoUsuariosSinDTO")
+    public List<Usuario> mostrarUsuarios(){
+        return usuarioService.mostrarUsuarios();
     }
     @PostMapping("/crearUsuarios")
     public Usuario crearUsuario(Usuario usuario){

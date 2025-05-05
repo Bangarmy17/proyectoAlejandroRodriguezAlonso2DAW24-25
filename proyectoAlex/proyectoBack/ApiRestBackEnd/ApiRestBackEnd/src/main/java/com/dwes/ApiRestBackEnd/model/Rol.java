@@ -2,18 +2,24 @@ package com.dwes.ApiRestBackEnd.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "rol")
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String nombre;
+    @Column(unique = true, nullable = false)
+    private String name;
 
-    @OneToMany(mappedBy = "rol")
-    private List<Usuario> usuarios;
+    public Rol(String name){
+        this.name = name;
+    }
+
+
 }
