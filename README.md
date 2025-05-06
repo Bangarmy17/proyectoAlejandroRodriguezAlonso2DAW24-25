@@ -4,3 +4,5 @@ Este proyecto se tratará de una web de venta de ropa en la que a intencion es q
 
 Dentro de la carpeta proyecto alex dejo también los archivos SQL qu use para crear la base de datos algunas consultas y datos ficticios para poder probar cosas
 
+IMPORTANTE HAY QUE INSTALAR LOS NODE_MODULES
+
