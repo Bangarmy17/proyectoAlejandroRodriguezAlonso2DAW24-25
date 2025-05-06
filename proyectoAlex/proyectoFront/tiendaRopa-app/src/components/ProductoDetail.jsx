@@ -11,10 +11,20 @@ export const ProductoDetail = ({
       <td className="p-2">{producto.precio + " €"}</td>
       <td className="p-2">{producto.stock}</td>
       <td>
-        <button onClick={() => handlerUpdate(producto)}>Actualizar</button>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => handlerUpdate(producto)}
+        >
+          Actualizar
+        </button>
       </td>
       <td>
-        <button onClick={() => handlerRemove(producto.id)}>Borrar</button>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => handlerRemove(producto.id)}
+        >
+          Borrar
+        </button>
       </td>
     </tr>
   );

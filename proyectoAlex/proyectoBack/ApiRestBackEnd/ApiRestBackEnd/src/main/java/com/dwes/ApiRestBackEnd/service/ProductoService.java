@@ -21,6 +21,7 @@ public class ProductoService {
     }
     public ProductoRequestDTO mapToRequestDTO(Producto producto){
         return ProductoRequestDTO.builder()
+                .id(producto.getId())
                 .nombre(producto.getNombre())
                 .descripcion(producto.getDescripcion())
                 .precio(producto.getPrecio())

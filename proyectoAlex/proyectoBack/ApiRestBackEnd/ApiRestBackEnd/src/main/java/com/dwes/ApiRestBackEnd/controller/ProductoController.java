@@ -24,8 +24,8 @@ public class ProductoController {
         List<ProductoRequestDTO> productos = productoService.listarTodosProductos();
         return productos;
     }
-    @PostMapping("/crearProductos")
-    public Producto crearProducto(Producto producto){
+    @PostMapping()
+    public Producto crearProducto(@RequestBody Producto producto){
         return productoService.crearProducto(producto);
     }
     @GetMapping("/obtenerProductoPorId/{id}")
@@ -37,11 +37,11 @@ public class ProductoController {
         return productoService.obtenerStockPorPrecio(precio);
     }
     @PutMapping("/modificarProductoPorId/{id}")
-    public Producto modificarProductoPorId(Producto producto, @RequestParam long id){
+    public Producto modificarProductoPorId(@RequestBody Producto producto, @PathVariable long id){
         return productoService.modificarProductoPorId(producto,id);
     }
-    @DeleteMapping("/borrar/{id}")
-    public ResponseEntity<Void> borrarProductoById(@RequestParam long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> borrarProductoById(@PathVariable long id){
         try{
             productoService.borrarProdPorId(id);
             return ResponseEntity.ok().build();
