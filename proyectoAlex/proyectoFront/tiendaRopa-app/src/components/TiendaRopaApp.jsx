@@ -17,7 +17,7 @@ export const TiendaRopaApp = () => {
     try {
       // LLamo a la funcion del servicio que es una peticion GET que me deberia mostrar todos los productos
       const result = await findAll();
-      console.log("prods", result.data);
+      // console.log("prods", result.data);
       if (result && result.data) {
         //si se obtiene el resultado invoco el setProductos con los resultados que obtuve de la peticion
         setProductos(result.data);
@@ -38,11 +38,10 @@ export const TiendaRopaApp = () => {
   //   agregar o modificar producto
   const handlerAddProducto = async (producto) => {
     //si es un producto existente en lugar de crear un producto lo que voy a hacer es modificarlo
-    console.log("Producto antes de enviar: ", producto);
-    console.log(producto.id);
+    // console.log("Producto antes de enviar: ", producto);
+    // console.log(producto.id);
     if (producto.id > 0) {
       const response = await update(producto);
-      console.log("entra por el UPDATE", response);
       setProductos(
         productos.map((prod) => {
           // en caso de que el nuevo producto coincidiese con el id de uno de los productos de la lista lo remplazo
@@ -53,7 +52,6 @@ export const TiendaRopaApp = () => {
         })
       );
     } else {
-      console.log("entra por el CREATE");
       const response = await create(producto);
       setProductos([...productos, { ...response.data }]);
     }
@@ -65,8 +63,8 @@ export const TiendaRopaApp = () => {
   };
   //
   const handlerProductoSelected = (producto) => {
-    console.log("Prod seleccionado", producto);
-    console.log("id ", producto.id);
+    /* console.log("Prod seleccionado", producto);
+    console.log("id ", producto.id); */
     setProductoSelected({ ...producto });
   };
   return (
@@ -82,6 +80,9 @@ export const TiendaRopaApp = () => {
           </div>
           <div className="row my-4">
             <div className="col">
+              <h2 className="d-flex justify-content-center">
+                Listado de productos
+              </h2>
               <ProductoGrid
                 productos={productos}
                 handlerRemove={handlerRemoveProducto}
