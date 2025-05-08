@@ -28,7 +28,7 @@ public class UsuarioController {
         });
         return ResponseEntity.badRequest().body(errors);
     }*/
-    @GetMapping("/listadoUsuarios")
+    @GetMapping()
     public List<UsuarioFormateadoRequestDTO> mostrarTodosUsuarios(){
         return usuarioService.obtenerTodosLosUsuarios();
     }
@@ -38,11 +38,11 @@ public class UsuarioController {
         return usuarioService.mostrarUsuarios();
     }
     @PostMapping("/crearUsuarios")
-    public Usuario crearUsuario(Usuario usuario){
+    public Usuario crearUsuario(@RequestBody Usuario usuario){
         return usuarioService.crearUsuario(usuario);
     }
     @GetMapping("/obtenerUsuarioPorId/{id}")
-    public UsuarioFullInfoRequestDTO obtenerUsuarioPorId(@RequestParam long id){
+    public UsuarioFullInfoRequestDTO obtenerUsuarioPorId(@PathVariable long id){
         return usuarioService.mostrarUsuarioPorId(id);
     }
     @GetMapping("/obtenerCorreoPasswdYUsername")
@@ -50,11 +50,11 @@ public class UsuarioController {
         return usuarioService.obtenerCorreoContraYUsername();
     }
     @PutMapping("/modificarPorId/{id}")
-    public Usuario modificarUsuarioPorId(Usuario usuario, @RequestParam long id){
+    public Usuario modificarUsuarioPorId(@RequestBody Usuario usuario, @PathVariable long id){
         return usuarioService.modificarUsuarioPorId(usuario, id);
     }
     @DeleteMapping("/borrar/{id}")
-    public ResponseEntity<Void> borrarUsuarioById(@RequestParam long id){
+    public ResponseEntity<Void> borrarUsuarioById(@PathVariable long id){
         try{
             usuarioService.borrarUsuarioPorId(id);
             return ResponseEntity.ok().build();

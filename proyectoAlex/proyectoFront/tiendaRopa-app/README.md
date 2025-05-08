@@ -1,12 +1,5 @@
-# React + Vite
+Proyecto de fin de curso 2ºDAW 2024-2025 Hecho por Alejandro Rodríguez Alonso Este proyecto se tratará de una web de venta de ropa en la que la intención es que tiene que interactuar el usuario o administrador con la página haciendo una serie de peticiones a la base de datos gracias al back-end que usare Java Springboot y para la parte del front-end usaré HTML / CSS / REACT / BOOTSTRAP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dentro de la carpeta proyecto alex dejo también los archivos SQL que use para crear la base de datos algunas consultas y datos ficticios para poder probar cosas
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+IMPORTANTE HAY QUE INSTALAR LOS NODE_MODULES

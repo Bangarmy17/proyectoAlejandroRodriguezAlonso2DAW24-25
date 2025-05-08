@@ -32,7 +32,9 @@
   height: 200px;
   object-fit: cover;
 }
-
+#principal {
+  background-color: rgb(244, 244, 244);
+}
 #iconoCarro {
   font-size: 25px;
 }

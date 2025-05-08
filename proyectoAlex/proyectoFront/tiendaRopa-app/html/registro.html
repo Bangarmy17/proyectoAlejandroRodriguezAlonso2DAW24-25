@@ -1,60 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro</title>
+    <!-- LLAMADA DE ESTILOS PERSONALIZADOS -->
+    <link href="/src/styles.css" rel="stylesheet" />
     <!-- LLAMADA DEL FAVICON -->
-    <link rel="icon" href="../img/iconoTienda.png" type="image/png">
+    <link rel="icon" href="../img/iconoTienda.png" type="image/png" />
     <!-- LLAMADA DE BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<body>
+  <body>
     <!-- nombre,apellidos,email,direccion,userName,password -->
     <div class="container mt-3">
-        <h3 class="text-center">Bienvenido nuevo usuario, registrese</h3>
-        <div class="container mt-3">
-            <form>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="nombre">Nombre</label>
-                        <input class="form-control" type="text" name="nombre"
-                            placeholder="Por favor introduzca su nombre" required>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label" for="apellidos">Apellidos</label>
-                        <input class="form-control" type="text" name="apellidos"
-                            placeholder="Por favor introduzca sus apellidos" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label class="form-label" for="email">Email</label>
-                        <input class="form-control" type="text" name="email" placeholder="introduzca un email" required>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label" for="direccion">Direccion</label>
-                        <input class="form-control" type="text" name="direccion" placeholder="direccion" required>
-                    </div>
-                </div>
-                <label class="form-label" for="userName">Nombre de usuario</label>
-                <input class="form-control" type="text" name="userName" required>
+      <h3 class="text-center">Bienvenido nuevo usuario, registrese</h3>
+      <div class="container mt-3">
+        <form>
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label" for="nombre">Nombre</label>
+              <input
+                class="form-control"
+                type="text"
+                name="nombre"
+                placeholder="Por favor introduzca su nombre"
+                required
+              />
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="apellidos">Apellidos</label>
+              <input
+                class="form-control"
+                type="text"
+                name="apellidos"
+                placeholder="Por favor introduzca sus apellidos"
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label" for="email">Email</label>
+              <input
+                class="form-control"
+                type="text"
+                name="email"
+                placeholder="introduzca un email"
+                required
+              />
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="direccion">Direccion</label>
+              <input
+                class="form-control"
+                type="text"
+                name="direccion"
+                placeholder="direccion"
+                required
+              />
+            </div>
+          </div>
+          <label class="form-label" for="userName">Nombre de usuario</label>
+          <input class="form-control" type="text" name="userName" required />
 
-                <label class="form-label" for="password">Contraseña</label>
-                <input class="form-control" type="password" name="password" required>
-                <div class="row justify-content-center mt-3">
-                    <div class="col-auto"><button class="btn btn-success btn-lg">Registrate</button></div>
-                    <div class="col-auto"><button class="btn btn-danger btn-lg">Limpiar el formulario</button></div>
-                </div>
-            </form>
-        </div>
+          <label class="form-label" for="password">Contraseña</label>
+          <input
+            class="form-control"
+            type="password"
+            name="password"
+            required
+          />
+          <div class="row justify-content-center mt-3">
+            <div class="col-auto">
+              <button class="btn btn-success btn-lg">Registrate</button>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-danger btn-lg">
+                Limpiar el formulario
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-        crossorigin="anonymous"></script>
-</body>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- LLAMADA DE ESTILOS PERSONALIZADOS -->
+    <link href="/src/styles.css" rel="stylesheet" />
     <!-- LLAMADA DEL FAVICON -->
     <link rel="icon" href="../img/iconoTienda.png" type="image/png" />
     <!-- LLAMADA DE BOOTSTRAP -->
@@ -15,21 +17,14 @@
     <title>Panel de Admin</title>
   </head>
   <header>
-    <div class="container">
+    <div class="container-fluid">
       <h1 class="d-flex justify-content-center mt-4">
         Bienvenido Administrador
       </h1>
     </div>
   </header>
   <body>
-    <div class="container">
-      <h2 class="d-flex justify-content-center">Gestión de Pedidos</h2>
-    </div>
-    <div class="container">
-      <h2 class="d-flex justify-content-center">Gestión de Productos</h2>
-    </div>
-    <div class="container">
-      <h2 class="d-flex justify-content-center">Gestión de Usuarios</h2>
-    </div>
+    <div id="admin"></div>
+    <script type="module" src="/src/admin.jsx"></script>
   </body>
 </html>
