@@ -27,3 +27,14 @@ export const listadoInfoCuentas  = async() =>{
     return null;
 }
 
+// ADMIN
+export const borrarUsuarioPorId = async (id) => {
+    try {
+        const response = await axios.delete(baseUrl + "/"+id);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+    return null;
+}
+

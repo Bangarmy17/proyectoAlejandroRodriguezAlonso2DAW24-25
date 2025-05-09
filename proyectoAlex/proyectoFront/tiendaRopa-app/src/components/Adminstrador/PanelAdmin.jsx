@@ -10,7 +10,6 @@ import { CreacionProductoForm } from "../Producto/CreacionProductoFrom";
 // imports
 export const PanelAdmin = () => {
   const [productos, setProductos] = useState([]);
-
   const [productoSelected, setProductoSelected] = useState({
     nombre: "",
     descripcion: "",
