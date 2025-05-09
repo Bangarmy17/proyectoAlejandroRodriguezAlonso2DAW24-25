@@ -25,5 +25,5 @@ export const TiendaRopaApp = () => {
   useEffect(() => {
     getProductos();
   }, []);
-  return <CargarProd></CargarProd>;
+  return <CargarProd productos={productos}></CargarProd>;
 };

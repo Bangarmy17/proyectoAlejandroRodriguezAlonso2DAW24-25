@@ -1,0 +1,31 @@
+body {
+  background-color: rgb(52, 52, 52) !important;
+  color: white !important;
+}
+
+.form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: rgb(72, 72, 72) !important;
+  color: white !important;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.form-container .form-label {
+  color: white !important;
+}
+
+.form-container .form-text {
+  color: #cccccc !important;
+}
+
+.btn-primary {
+  background-color: rgb(116, 38, 116) !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background-color: rgb(90, 29, 90) !important;
+}

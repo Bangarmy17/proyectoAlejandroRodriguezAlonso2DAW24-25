@@ -26,4 +26,10 @@ public class Producto {
 
     @OneToMany(mappedBy = "producto")
     private List<RealizarPedido> realizarPedidos;
+
+    @OneToMany(mappedBy = "producto")
+    private List<productoCategoria> productoCategorias;
+
+    @OneToMany(mappedBy = "producto")
+    private List<productoTalla> productoTallas;
 }
