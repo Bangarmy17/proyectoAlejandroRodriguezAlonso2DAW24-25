@@ -29,11 +29,11 @@ public class ProductoController {
         return productoService.crearProducto(producto);
     }
     @GetMapping("/obtenerProductoPorId/{id}")
-    public ProductoRequestDTO obtenerProductoPorId(@RequestParam long id){
+    public ProductoRequestDTO obtenerProductoPorId(@PathVariable long id){
         return productoService.buscarProductoPorId(id);
     }
     @GetMapping("/obtenerStockPorPrecio")
-    public int obtenerStockPorPrecio(@RequestParam double precio){
+    public int obtenerStockPorPrecio(@PathVariable double precio){
         return productoService.obtenerStockPorPrecio(precio);
     }
     @PutMapping("/modificarProductoPorId/{id}")

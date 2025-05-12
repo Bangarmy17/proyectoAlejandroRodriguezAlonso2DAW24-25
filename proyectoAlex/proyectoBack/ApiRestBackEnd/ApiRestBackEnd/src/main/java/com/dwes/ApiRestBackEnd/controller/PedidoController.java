@@ -28,12 +28,12 @@ public class PedidoController {
         return pedidoService.listarPedidos();
     }
     @GetMapping("/obtenerPorId")
-    public PedidoRequestDTO buscarPedidoPorId(@RequestParam long id){
+    public PedidoRequestDTO buscarPedidoPorId(@PathVariable long id){
         return pedidoService.buscarPedidoById(id);
     }
 
     @DeleteMapping("/borrarPedidosById")
-    public ResponseEntity<Void> borrarPedidosPorId(@RequestParam long id){
+    public ResponseEntity<Void> borrarPedidosPorId(@PathVariable long id){
         try{
             pedidoService.borrarPedidoPorId(id);
             return ResponseEntity.ok().build();

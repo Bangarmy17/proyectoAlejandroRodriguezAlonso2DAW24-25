@@ -32,6 +32,7 @@ public class UsuarioService {
     }
     public UsuarioRequestDTO mapToRequestDTO(Usuario usuario){
         return UsuarioRequestDTO.builder()
+                .id(usuario.getId())
                 .email(usuario.getEmail())
                 .userName(usuario.getUserName())
                 .password(usuario.getPassword())
