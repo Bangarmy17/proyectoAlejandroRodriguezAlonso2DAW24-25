@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl="http://localhost:8080/cliente";
+const baseUrl="http://localhost:8080/usuario";
 
 //Peticion GET de un listado de usuarios DTO que me 
 // devolverá la informacion personal del usuario
@@ -27,10 +27,9 @@ export const listadoInfoCuentas  = async() =>{
     return null;
 }
 
-// ADMIN
 export const borrarUsuarioPorId = async (id) => {
     try {
-        const response = await axios.delete(baseUrl + "/"+id);
+        const response = await axios.delete(baseUrl + "/borrar/"+id);
         return response;
     } catch (error) {
         console.log(error);
