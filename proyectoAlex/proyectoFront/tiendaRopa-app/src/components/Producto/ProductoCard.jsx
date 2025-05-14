@@ -1,7 +1,12 @@
 export const ProductoCard = ({ producto = {} }) => {
   return (
     <div className="card h-100">
-      <img src="#" className="card-img-top" alt={producto.nombre} />
+      <img
+        src={`http://localhost:8080/${producto.rutaImagen}`}
+        alt={producto.nombre}
+        width="200"
+        className="card-img-top"
+      />
       <div className="card-body">
         <h5 className="card-title">{producto.nombre}</h5>
         <p className="card-text">{producto.precio + "€"}</p>

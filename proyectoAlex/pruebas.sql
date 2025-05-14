@@ -1,7 +1,9 @@
 use tiendaRopa;
 SELECT * FROM usuario;
 SELECT * FROM rol;
+SELECT * FROM user_roles;
 SELECT * FROM producto;
+SELECT rutaImagen FROM producto;
 SELECT *
 FROM usuario AS u
 WHERE u.id = 1;

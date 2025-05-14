@@ -3,9 +3,10 @@ import axios from "axios";
 const baseUrl="http://localhost:8080/producto";
 
 // Peticion Get que obtiene todos los productos devolviendo solo los campos del DTO
+// y además es la peticion que uso para mostrar los prods en la página principal
 export const findAll = async () =>{
   try{
-    const response = await axios.get(baseUrl + "/listadoProductos")
+    const response = await axios.get(baseUrl)
     return response;
   } catch (error) {
     console.log(error);

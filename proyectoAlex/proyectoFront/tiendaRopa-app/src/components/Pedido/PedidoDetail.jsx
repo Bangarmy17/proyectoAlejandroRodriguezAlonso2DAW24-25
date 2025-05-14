@@ -2,11 +2,11 @@ export const PedidoDetail = ({ handlerRemove, pedido = {} }) => {
   console.log("Pedido detail: ", pedido);
   return (
     <tr>
-      <td className="p-2">{pedido.id}</td>
+      <td className="p-2">{pedido.idPedido}</td>
       <td className="p-2">{pedido.precioTotal}</td>
-      <td className="p-2">{pedido.nombre}</td>
-      <td className="p-2">{pedido.apellidos}</td>
-      <td className="p-2">{pedido.direccion}</td>
+      <td className="p-2">{pedido.nombreUsuario}</td>
+      <td className="p-2">{pedido.apellidosUsuario}</td>
+      <td className="p-2">{pedido.direccionUsuario}</td>
       <td className="p-2">
         {pedido.productos.map((producto) => {
           return (

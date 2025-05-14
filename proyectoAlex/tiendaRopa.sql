@@ -14,7 +14,7 @@ enabled TINYINT NOT NULL DEFAULT 1
 -- enabled me va a servir para escoger si un usuario va a ser admin o no 
 );
 -- TABLA PARA ROLES (Usuario o Admin)
-CREATE TABLE rol (
+CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(45) NOT NULL UNIQUE
 );
@@ -24,10 +24,10 @@ user_id INT,
 role_id INT,
 PRIMARY KEY (user_id, role_id),
 FOREIGN KEY (user_id) REFERENCES usuario(id) ON DELETE CASCADE,
-FOREIGN KEY (role_id) REFERENCES rol(id) ON DELETE CASCADE
+FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 -- Inserción de registros en la tabla roles
-INSERT INTO rol (name) VALUES ('ROLE_ADMIN'), ('ROLE_USER');
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN'), ('ROLE_USER');
 
 -- Tabla para donde se guarden los productos
 CREATE TABLE producto (
@@ -36,7 +36,8 @@ nombre VARCHAR(45) NOT NULL,
 descripcion TEXT,
 precio DECIMAL(10,2) NOT NULL,
 stock INT NOT NULL,
-fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+rutaImagen VARCHAR(255)
 );
 -- 
 CREATE TABLE pedido (
