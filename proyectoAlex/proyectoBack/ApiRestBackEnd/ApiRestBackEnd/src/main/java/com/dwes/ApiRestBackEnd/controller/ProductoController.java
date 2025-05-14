@@ -4,9 +4,15 @@ import com.dwes.ApiRestBackEnd.dto.ProductoRequestDTO;
 import com.dwes.ApiRestBackEnd.model.Producto;
 import com.dwes.ApiRestBackEnd.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
@@ -19,7 +25,7 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @GetMapping("/listadoProductos")
+    @GetMapping()
     public List<ProductoRequestDTO> listarProductos(){
         List<ProductoRequestDTO> productos = productoService.listarTodosProductos();
         return productos;
@@ -49,7 +55,6 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
-
     @DeleteMapping("/borrar")
     public ResponseEntity<Void> borrarAllProductos(){
         try {

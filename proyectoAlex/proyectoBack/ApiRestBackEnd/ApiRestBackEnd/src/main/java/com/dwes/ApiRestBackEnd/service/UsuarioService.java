@@ -3,12 +3,13 @@ package com.dwes.ApiRestBackEnd.service;
 import com.dwes.ApiRestBackEnd.dto.UsuarioFormateadoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.UsuarioFullInfoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.UsuarioRequestDTO;
-import com.dwes.ApiRestBackEnd.model.Rol;
+import com.dwes.ApiRestBackEnd.model.Role;
 import com.dwes.ApiRestBackEnd.model.Usuario;
-import com.dwes.ApiRestBackEnd.repository.RolRepository;
+import com.dwes.ApiRestBackEnd.repository.RoleRepository;
 import com.dwes.ApiRestBackEnd.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +22,13 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
     private UsuarioRepository usuarioRepository;
-    private RolRepository rolRepository;
-  //  private PasswordEncoder passwordEncoder;
-    //PasswordEncoder passwordEncoder
+    private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository ){
+    public UsuarioService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder ){
         this.usuarioRepository = usuarioRepository;
-        this.rolRepository = rolRepository;
-       // this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     public UsuarioRequestDTO mapToRequestDTO(Usuario usuario){
         return UsuarioRequestDTO.builder()
@@ -60,6 +60,22 @@ public class UsuarioService {
     //creacion de un usuario
     @Transactional
     public Usuario crearUsuario(Usuario usuario){
+        //Cualquier Usuario que se registre deberia tener el rol ROLE_USER
+        //asi que le asigno el rol
+        Optional<Role> optionalRoleUsuario = roleRepository.findByName("ROLE_USER");
+        List<Role> roles = new ArrayList<>();
+        if(optionalRoleUsuario.isPresent())
+            roles.add(optionalRoleUsuario.get());
+        //Si un usuario es administrador le asgino el ROLE_ADMIN
+        if (usuario.isAdmin()){
+            Optional<Role> optionalRoleAdmin = roleRepository.findByName("ROLE_ADMIN");
+            if(optionalRoleAdmin.isPresent())
+                roles.add(optionalRoleAdmin.get());
+        }
+        //guardar los roles en el usuario
+        usuario.setRoles(roles);
+        //asignar el password encriptado
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
 
@@ -89,6 +105,11 @@ public class UsuarioService {
     }
     //<--------------------Métodos que el administrador usará---------------------->
     //con la funcion findAll puedo mostrar todos los usuarios
+    @Transactional(readOnly = true)
+    public List<Usuario> obtUsuarios(){
+        return usuarioRepository.findAll();
+    }
+
     @Transactional(readOnly = true)
     public List<UsuarioFormateadoRequestDTO> obtenerTodosLosUsuarios(){
         List<Usuario> usuarioList = usuarioRepository.findAll();

@@ -26,6 +26,7 @@ public class ProductoService {
                 .descripcion(producto.getDescripcion())
                 .precio(producto.getPrecio())
                 .stock(producto.getStock())
+                .rutaImagen(producto.getRutaImagen())
                 .build();
     }
     @Transactional //POST

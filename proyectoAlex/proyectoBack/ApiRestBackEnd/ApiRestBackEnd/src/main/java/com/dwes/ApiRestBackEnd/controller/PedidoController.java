@@ -23,7 +23,7 @@ public class PedidoController {
     public Pedido crearPedido(Long idUsuario, List<RealizarPedido> carrito){
         return pedidoService.crearPedido(idUsuario, carrito);
     }
-    @GetMapping("/listarPedidos")
+    @GetMapping()
     public List<PedidoRequestDTO> listarPedidos(){
         return pedidoService.listarPedidos();
     }

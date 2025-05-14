@@ -1,5 +1,6 @@
 package com.dwes.ApiRestBackEnd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,12 +8,17 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+    public Usuario(){
+        this.roles = new ArrayList<>();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,23 +37,34 @@ public class Usuario {
     @NotBlank
     private String password;
     private LocalDateTime fecha_registro = LocalDateTime.now();
-
-    @Transient
-    private boolean admin; //campo que no existe en la base de datos y
+    private boolean enabled; //campo que no existe en la base de datos y
     // que no se va a mapear que solo me va a servir para saber si es admin o no
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id == usuario.id && Objects.equals(userName, usuario.userName);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName);
+    }
 
+    @Transient
+    private boolean admin;
 
 
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos;
 
+    @JsonIgnoreProperties({"usuarios","handler","hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Rol> roles;
+    private List<Role> roles;
 
 }

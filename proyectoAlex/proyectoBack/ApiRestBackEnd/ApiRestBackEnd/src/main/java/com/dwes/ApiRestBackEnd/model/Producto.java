@@ -23,6 +23,7 @@ public class Producto {
     @NotNull
     private int stock;
     private LocalDateTime fecha_registro = LocalDateTime.now();
+    private String rutaImagen;
 
     @OneToMany(mappedBy = "producto")
     private List<RealizarPedido> realizarPedidos;
