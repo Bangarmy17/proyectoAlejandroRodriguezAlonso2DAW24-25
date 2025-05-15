@@ -62,10 +62,9 @@ public class UsuarioController {
 
     }
     //Metodo para que el usuario pueda registrarse
-
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult result) {
-      usuario.setAdmin(false);
+      usuario.setAdmin(false); //me aseguro de que este usuario no pueda ser administrador y ademas de que esté activado
       usuario.setEnabled(true);
       return crearUsuario(usuario, result);
     }
