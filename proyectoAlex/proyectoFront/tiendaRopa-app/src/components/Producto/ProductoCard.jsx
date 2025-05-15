@@ -1,10 +1,12 @@
 export const ProductoCard = ({ producto = {} }) => {
+  // console.log("Ruta de la imagen:", producto.rutaImagen);
   return (
     <div className="card h-100">
       <img
-        src={`http://localhost:8080/${producto.rutaImagen}`}
+        src={producto.rutaImagen}
         alt={producto.nombre}
-        width="200"
+        width="50"
+        height="50"
         className="card-img-top"
       />
       <div className="card-body">
