@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ProductoCard } from "./Producto/ProductoCard";
 import { findAll } from "../services/ProductoService";
 import { CargarProd } from "./Producto/CargarProd";
 export const TiendaRopaApp = () => {

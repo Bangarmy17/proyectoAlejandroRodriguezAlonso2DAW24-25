@@ -13,6 +13,10 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+.form-container-registro {
+  max-width: 650px;
+}
+
 .form-container .form-label {
   color: white !important;
 }
