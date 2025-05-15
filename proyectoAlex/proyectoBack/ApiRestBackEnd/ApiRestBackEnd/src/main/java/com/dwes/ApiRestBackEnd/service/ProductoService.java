@@ -19,6 +19,7 @@ public class ProductoService {
     public ProductoService(ProductoRepository productoRepository){
         this.productoRepository = productoRepository;
     }
+
     public ProductoRequestDTO mapToRequestDTO(Producto producto){
         return ProductoRequestDTO.builder()
                 .id(producto.getId())

@@ -9,12 +9,17 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:5173/" ,originPatterns = "*")
+@EnableWebSecurity
+@EnableMethodSecurity
 @RestController
 @RequestMapping("/producto")
 public class ProductoController {
@@ -30,6 +35,7 @@ public class ProductoController {
         List<ProductoRequestDTO> productos = productoService.listarTodosProductos();
         return productos;
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Producto crearProducto(@RequestBody Producto producto){
         return productoService.crearProducto(producto);
@@ -42,10 +48,12 @@ public class ProductoController {
     public int obtenerStockPorPrecio(@PathVariable double precio){
         return productoService.obtenerStockPorPrecio(precio);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/modificarProductoPorId/{id}")
     public Producto modificarProductoPorId(@RequestBody Producto producto, @PathVariable long id){
         return productoService.modificarProductoPorId(producto,id);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> borrarProductoById(@PathVariable long id){
         try{
@@ -55,6 +63,7 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/borrar")
     public ResponseEntity<Void> borrarAllProductos(){
         try {
@@ -64,7 +73,6 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
-
     //-----------------------FILTROS--------------------------
     @GetMapping("/filtrado/precioAsc")
     public List<ProductoRequestDTO> precioAsc(){

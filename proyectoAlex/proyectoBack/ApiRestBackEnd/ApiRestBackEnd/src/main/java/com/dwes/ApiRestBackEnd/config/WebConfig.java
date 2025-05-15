@@ -14,9 +14,4 @@ class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedMethods("*").allowedHeaders("*");
     }
-    /*@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:src/main/resources/uploads/");
-    }*/
 }

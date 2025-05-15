@@ -9,6 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:5173/" ,originPatterns = "*")
+@EnableWebSecurity
+@EnableMethodSecurity
 @RequestMapping("/usuario")
 @RestController
 public class UsuarioController {
@@ -33,20 +38,21 @@ public class UsuarioController {
         });
         return ResponseEntity.badRequest().body(errors);
     }
-    @GetMapping()
+    /*@GetMapping()
     public List<Usuario> obtUsuarios(){
         return usuarioService.obtUsuarios();
-    }
-    /*@GetMapping()
+    }*/
+    @GetMapping()
     public List<UsuarioFormateadoRequestDTO> mostrarTodosUsuarios(){
         return usuarioService.obtenerTodosLosUsuarios();
-    }*/
+    }
     //este get es de pruebas mias personales
     @GetMapping("/listadoUsuariosSinDTO")
     public List<Usuario> mostrarUsuarios(){
         return usuarioService.mostrarUsuarios();
     }
-    //metodo de creacion de un usuario que podria ser admin
+    //metodo de creacion de un usuario que podria ser admin y que solo un admin podrá crear
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public ResponseEntity<?> crearUsuario(@Valid @RequestBody Usuario usuario, BindingResult result) {
         if (result.hasErrors()) {
@@ -55,24 +61,30 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.crearUsuario(usuario));
 
     }
+    //Metodo para que el usuario pueda registrarse
+
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult result) {
       usuario.setAdmin(false);
       usuario.setEnabled(true);
       return crearUsuario(usuario, result);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/obtenerUsuarioPorId/{id}")
     public UsuarioFullInfoRequestDTO obtenerUsuarioPorId(@PathVariable long id){
         return usuarioService.mostrarUsuarioPorId(id);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/obtenerCorreoPasswdYUsername")
     public List<UsuarioRequestDTO> obtenerCorreoPasswdYUsername(){
         return usuarioService.obtenerCorreoContraYUsername();
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/modificarPorId/{id}")
     public Usuario modificarUsuarioPorId(@RequestBody Usuario usuario, @PathVariable long id){
         return usuarioService.modificarUsuarioPorId(usuario, id);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<Void> borrarUsuarioById(@PathVariable long id){
         try{
@@ -82,6 +94,7 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/borrar")
     public ResponseEntity<Void> borrarTodos(){
         try{

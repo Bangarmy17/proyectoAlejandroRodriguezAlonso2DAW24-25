@@ -39,7 +39,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             return;
         }
         //Le quito el prefijo al token
-        String token = header.replace(PREFIX_TOKEN,"");
+        String token = header.replace(PREFIX_TOKEN,"").trim();
         try{
             Claims claims = Jwts.parser().verifyWith((SecretKey) SECRET_KEY).build().parseSignedClaims(token).getPayload();
             //Obtencion del username
