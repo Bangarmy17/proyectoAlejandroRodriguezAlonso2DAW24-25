@@ -89,6 +89,16 @@ public class ProductoService {
         return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
     @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> ordenarProdAsc(){
+        List<Producto> productos = productoRepository.productoAsc();
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> ordenarProdDesc(){
+        List<Producto> productos = productoRepository.productoDesc();
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
     public List<ProductoRequestDTO> buscarPorPrecioMin(double precio){
         List<Producto> productos = productoRepository.buscarPrecioMinimo(precio);
         return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());

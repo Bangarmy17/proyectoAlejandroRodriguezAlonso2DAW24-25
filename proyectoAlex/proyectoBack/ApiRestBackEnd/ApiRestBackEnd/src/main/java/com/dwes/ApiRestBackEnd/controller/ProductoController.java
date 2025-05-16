@@ -83,15 +83,23 @@ public class ProductoController {
         return productoService.ordenarPorPrecioDesc();
     }
     @GetMapping("/filtrado/precioMin")
-    public List<ProductoRequestDTO> precioMin(@RequestParam double precio){
+    public List<ProductoRequestDTO> precioMin(@PathVariable double precio){
         return productoService.buscarPorPrecioMin(precio);
     }
     @GetMapping("/filtrado/precioMax")
-    public List<ProductoRequestDTO> precioMax(@RequestParam double precio){
+    public List<ProductoRequestDTO> precioMax(@PathVariable double precio){
         return productoService.buscarPorPrecioMax(precio);
     }
+    @GetMapping("/filtrado/prodAsc")
+    public List<ProductoRequestDTO> prodAsc(){
+        return productoService.ordenarProdAsc();
+    }
+    @GetMapping("/filtrado/prodDes")
+    public List<ProductoRequestDTO> prodDes(){
+        return productoService.ordenarProdDesc();
+    }
     @GetMapping("/filtrado/precioMinYMax")
-    public List<ProductoRequestDTO> precioMinYMax(@RequestParam double precioMin,@RequestParam double precioMax){
+    public List<ProductoRequestDTO> precioMinYMax(@PathVariable double precioMin,@PathVariable double precioMax){
         return productoService.buscarEntrePrecioMinYMax(precioMin, precioMax);
     }
 }

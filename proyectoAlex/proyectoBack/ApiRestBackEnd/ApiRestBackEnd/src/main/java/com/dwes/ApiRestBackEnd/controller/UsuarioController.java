@@ -38,14 +38,12 @@ public class UsuarioController {
         });
         return ResponseEntity.badRequest().body(errors);
     }
-    /*@GetMapping()
-    public List<Usuario> obtUsuarios(){
-        return usuarioService.obtUsuarios();
-    }*/
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<UsuarioFormateadoRequestDTO> mostrarTodosUsuarios(){
         return usuarioService.obtenerTodosLosUsuarios();
     }
+    @PreAuthorize("hasRole('ADMIN')")
     //este get es de pruebas mias personales
     @GetMapping("/listadoUsuariosSinDTO")
     public List<Usuario> mostrarUsuarios(){
