@@ -13,6 +13,43 @@ export const findAll = async () =>{
   }
   return null;
 }
+export const findPrecioAsc = async () =>{
+  try{
+    const response = await axios.get(baseUrl + "/filtrado/precioAsc")
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+export const findPrecioDesc = async () =>{
+  try{
+    const response = await axios.get(baseUrl + "/filtrado/precioDes")
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+export const findNombreAsc = async () =>{
+  try{
+    const response = await axios.get(baseUrl + "/filtrado/prodAsc")
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+export const findNombreDesc = async () =>{
+  try{
+    const response = await axios.get(baseUrl + "/filtrado/prodDes")
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+
 //Peticion POST con la que podré crear los productos
 export const create = async ({nombre,descripcion,precio,stock})=>{
   try{

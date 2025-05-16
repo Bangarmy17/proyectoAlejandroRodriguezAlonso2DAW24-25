@@ -2,7 +2,7 @@ import { ProductoCard } from "./ProductoCard";
 
 export const CargarProd = ({ productos = [] }) => {
   return (
-    <div className="container mt-4">
+    <div className="container mt-1">
       <div className="row">
         {productos.map((producto) => (
           <div

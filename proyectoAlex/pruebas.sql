@@ -1,6 +1,6 @@
 use tiendaRopa;
 SELECT * FROM usuario;
-SELECT * FROM rol;
+SELECT * FROM roles;
 SELECT * FROM user_roles;
 SELECT * FROM producto;
 SELECT rutaImagen FROM producto;
