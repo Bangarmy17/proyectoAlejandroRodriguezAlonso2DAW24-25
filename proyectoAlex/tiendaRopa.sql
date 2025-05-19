@@ -15,8 +15,8 @@ enabled TINYINT NOT NULL DEFAULT 1
 );
 -- TABLA PARA ROLES (Usuario o Admin)
 CREATE TABLE roles (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(45) NOT NULL UNIQUE
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(45) NOT NULL UNIQUE
 );
 -- Relacion de muchos a muchos entre usuario y rol
 CREATE TABLE user_roles(
@@ -39,7 +39,18 @@ stock INT NOT NULL,
 fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 rutaImagen VARCHAR(255)
 );
--- 
+-- tabla donde guardará el usuario los productos para luego procesar el pedido
+CREATE TABLE carrito (
+id INT AUTO_INCREMENT PRIMARY KEY,
+idUsuario INT NOT NULL,
+idProducto INT NOT NULL,
+cantidad INT NOT NULL DEFAULT 1,
+fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (idUsuario) REFERENCES usuario(id) ON DELETE CASCADE,
+FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE
+);
+
+
 CREATE TABLE pedido (
 id INT AUTO_INCREMENT PRIMARY KEY,
 precioTotal DECIMAL(10,2),
@@ -59,30 +70,30 @@ FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE
 );
 -- Tabla para categorías
 CREATE TABLE categoria (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(45) NOT NULL
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(45) NOT NULL
 );
 -- Tabla para tallas
 CREATE TABLE talla (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(10) NOT NULL
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(10) NOT NULL
 );
 -- Relación muchos a muchos entre Producto y Categoria
 CREATE TABLE productoCategoria (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    idProducto INT NOT NULL,
-    idCategoria INT NOT NULL,
-    FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE,
-    FOREIGN KEY (idCategoria) REFERENCES categoria(id) ON DELETE CASCADE
+id INT AUTO_INCREMENT PRIMARY KEY,
+idProducto INT NOT NULL,
+idCategoria INT NOT NULL,
+FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE,
+FOREIGN KEY (idCategoria) REFERENCES categoria(id) ON DELETE CASCADE
 );
 -- Relación muchos a muchos entre Producto y Talla
 CREATE TABLE productoTalla (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    idProducto INT NOT NULL,
-    idTalla INT NOT NULL,
-    stock INT NOT NULL, -- Stock específico por talla
-    FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE,
-    FOREIGN KEY (idTalla) REFERENCES talla(id) ON DELETE CASCADE
+id INT AUTO_INCREMENT PRIMARY KEY,
+idProducto INT NOT NULL,
+idTalla INT NOT NULL,
+stock INT NOT NULL, -- Stock específico por talla
+FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE,
+FOREIGN KEY (idTalla) REFERENCES talla(id) ON DELETE CASCADE
 );
 
 -- DROP database tiendaRopa;

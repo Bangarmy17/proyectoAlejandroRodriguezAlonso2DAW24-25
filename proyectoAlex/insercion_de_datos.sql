@@ -37,55 +37,24 @@ INSERT INTO talla (nombre) VALUES
 ('M'), 
 ('L'), 
 ('XL');
+
 INSERT INTO productoCategoria (idProducto, idCategoria) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
+(1, 4),
+(2, 4),
+(3, 4),
 (4, 2),
 (5, 2),
 (6, 2),
 (7, 2),
-(8, 3), 
-(9, 3),
-(10, 3), 
-(11, 4), 
-(12, 4), 
-(13, 4), 
-(14, 5),
-(15, 5), 
-(16, 5); 
-
-INSERT INTO productoTalla (idProducto, idTalla, stock) VALUES
-(4, 1, 5),
-(4, 2, 10),
-(4, 3, 8),
-(4, 4, 7),
-(4, 5, 6),
-(5, 1, 4),
-(5, 2, 9),
-(5, 3, 7),
-(5, 4, 6),
-(5, 5, 5),
-(6, 1, 6),
-(6, 2, 11),
-(6, 3, 9),
-(6, 4, 7),
-(6, 5, 6),
-(7, 1, 5),
-(7, 2, 10),
-(7, 3, 8),
-(7, 4, 7),
-(7, 5, 5);
-
-INSERT INTO pedido (precioTotal, idUsuario) VALUES
-(39.98, 1), -- Pedido de Admin
-(29.99, 2); -- Pedido de Usuario
-
-INSERT INTO realizarPedido (cantidad, subtotal, idPedido, idProducto) VALUES
-(2, 19.98, 1, 1), -- Admin compra 2 Calcetines Death Note
-(1, 19.99, 1, 4), -- Admin compra 1 Camiseta Luffy
-(2, 29.99, 2, 12), -- Usuario compra 2 Pantalón Death Note
-(1, 9.99, 2, 3); -- Usuario compra 1 Calcetines Uchiha
+(8, 5),
+(9, 5),
+(10, 5),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 3),
+(15, 3),
+(16, 3);
 
 
 -- DELETE FROM producto;
