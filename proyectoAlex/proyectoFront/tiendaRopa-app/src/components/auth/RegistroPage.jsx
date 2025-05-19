@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { register } from "../../services/RegisterAndLogin";
 import { RegistroFrom } from "./RegistroFrom";
 
 export const RegistroPage = () => {
+  const navigate = useNavigate();
+
   const handlerAdd = async (form) => {
     const response = await register(
       form.nombre,
@@ -12,7 +15,7 @@ export const RegistroPage = () => {
       form.password
     );
     if (response && response.status === 201) {
-      alert("¡Registro exitoso!");
+      navigate("/");
     } else {
       alert("Error al registrar. Inténtalo de nuevo.");
     }

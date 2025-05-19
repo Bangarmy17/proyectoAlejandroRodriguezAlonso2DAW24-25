@@ -11,6 +11,12 @@ import { CargarProd } from "./Producto/CargarProd";
 import { NavBar } from "./nav/Navbar";
 export const TiendaRopaApp = () => {
   const [productos, setProductos] = useState([]);
+  const [isLogged, setIsLogged] = useState(!!localStorage.getItem("token"));
+  //Funcion para cerrar sesion (la hice aqui ya que aqui es la pagina principal y me parecia lo mas correcto)
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLogged(false);
+  };
   const getProductos = async (filtro) => {
     let result;
     switch (filtro) {
@@ -58,6 +64,8 @@ export const TiendaRopaApp = () => {
           <NavBar
             onFiltrar={getProductos}
             onFiltrarCategoria={getProductosPorCategoria}
+            isLogged={isLogged}
+            onLogout={handleLogout}
           />
         </header>
         <main className="container" style={{ paddingTop: "80px" }}>

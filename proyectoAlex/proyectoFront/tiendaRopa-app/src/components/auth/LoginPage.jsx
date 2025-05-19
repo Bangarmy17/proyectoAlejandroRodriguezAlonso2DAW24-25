@@ -1,14 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { login } from "../../services/RegisterAndLogin";
 import { LoginForm } from "./LoginForm";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+
   const handlerLogin = async (form) => {
     const response = await login(form.userName, form.password);
     if (response && response.status === 200) {
-      alert("¡Login correcto!");
-      // Si tu backend devuelve un token, guárdalo aquí:
-      // localStorage.setItem("token", response.data.token);
-      // Redirige si quieres
+      localStorage.setItem("token", response.data.token || "true");
+      navigate("/");
     } else {
       alert("Usuario o contraseña incorrectos");
     }

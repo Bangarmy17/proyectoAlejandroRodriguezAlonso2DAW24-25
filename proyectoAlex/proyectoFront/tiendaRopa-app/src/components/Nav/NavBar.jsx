@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const NavBar = ({ onFiltrar, onFiltrarCategoria }) => {
+export const NavBar = ({
+  onFiltrar,
+  onFiltrarCategoria,
+  isLogged,
+  onLogout,
+}) => {
   return (
     <nav className="navbar navbar-expand-lg fixed-top border-bottom w-100 bg-dark">
       <div className="container">
@@ -158,21 +163,35 @@ export const NavBar = ({ onFiltrar, onFiltrarCategoria }) => {
               </ul>
             </div>
             <ul className="navbar-nav align-items-center">
-              <li className="nav-item mb-2">
-                <Link className="nav-link" to="/usuario/registro">
-                  Registrate
-                </Link>
-              </li>
-              <li className="nav-item mb-2">
-                <Link className="nav-link" to="/login">
-                  Iniciar sesión
-                </Link>
-              </li>
-              <li className="nav-item mb-2">
-                <a className="nav-link" href="/html/gestionAdministrador.html">
-                  ADMIN
-                </a>
-              </li>
+              {!isLogged ? (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link btn btn-outline-light w-100"
+                      to="/usuario/registro"
+                    >
+                      Registrate
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link btn btn-outline-light w-100"
+                      to="/login"
+                    >
+                      Iniciar sesión
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-outline-danger w-100"
+                    onClick={onLogout}
+                  >
+                    Cerrar sesión
+                  </button>
+                </li>
+              )}
               <li className="nav-item">
                 <a className="nav-link" href="#">
                   <i className="bi bi-cart" id="iconoCarro"></i>
@@ -302,16 +321,35 @@ export const NavBar = ({ onFiltrar, onFiltrarCategoria }) => {
             </ul>
           </div>
           <ul className="navbar-nav ms-auto align-items-center">
-            <li className="nav-item me-3">
-              <Link className="nav-link" to="/usuario/registro">
-                Registrate
-              </Link>
-            </li>
-            <li className="nav-item me-3">
-              <Link className="nav-link" to="/login">
-                Iniciar sesión
-              </Link>
-            </li>
+            {!isLogged ? (
+              <>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link btn btn-outline-light w-100"
+                    to="/usuario/registro"
+                  >
+                    Registrate
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link btn btn-outline-light w-100"
+                    to="/login"
+                  >
+                    Iniciar sesión
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <button
+                  className="nav-link btn btn-outline-danger w-100"
+                  onClick={onLogout}
+                >
+                  Cerrar sesión
+                </button>
+              </li>
+            )}
             <li className="nav-item me-3">
               <a className="nav-link" href="/html/gestionAdministrador.html">
                 ADMIN
