@@ -13,6 +13,36 @@ export const findAll = async () =>{
   }
   return null;
 }
+//Peticion POST con la que podré crear los productos
+export const create = async ({nombre,descripcion,precio,stock})=>{
+  try{
+    const response = await axios.post(baseUrl , {nombre:nombre, descripcion:descripcion, precio:precio, stock:stock})
+    return response;
+  }catch(error){
+    console.log("Error peticion POST: "+error);
+  }
+  return undefined;
+  
+}
+//Peticion PUT con la que podré modificar los productos
+export const update = async({id,nombre,descripcion,precio,stock})=>{
+  try{
+    const response = await axios.put(baseUrl + "/modificarProductoPorId/" + id, {nombre:nombre, descripcion:descripcion, precio:precio, stock:stock})
+    return response;
+  }catch(error){
+    console.log("Error peticion PUT: "+error);
+  }
+  return undefined;
+}
+//DELETE 
+export const remove = async(id) =>{
+  try{
+    await axios.delete(baseUrl + '/' + id);
+  }catch(error){
+    console.log(error)
+  }
+}
+//-----------------------------------------FILTROS------------------------------------
 export const findPrecioAsc = async () =>{
   try{
     const response = await axios.get(baseUrl + "/filtrado/precioAsc")
@@ -49,33 +79,12 @@ export const findNombreDesc = async () =>{
   }
   return null;
 }
-
-//Peticion POST con la que podré crear los productos
-export const create = async ({nombre,descripcion,precio,stock})=>{
+export const findByCategoria = async (idCategoria) =>{
   try{
-    const response = await axios.post(baseUrl , {nombre:nombre, descripcion:descripcion, precio:precio, stock:stock})
+    const response = await axios.get(baseUrl + "/filtrado/categoria/" + idCategoria)
     return response;
-  }catch(error){
-    console.log("Error peticion POST: "+error);
+  } catch (error) {
+    console.log(error);
   }
-  return undefined;
-  
-}
-//Peticion PUT con la que podré modificar los productos
-export const update = async({id,nombre,descripcion,precio,stock})=>{
-  try{
-    const response = await axios.put(baseUrl + "/modificarProductoPorId/" + id, {nombre:nombre, descripcion:descripcion, precio:precio, stock:stock})
-    return response;
-  }catch(error){
-    console.log("Error peticion PUT: "+error);
-  }
-  return undefined;
-}
-//DELETE 
-export const remove = async(id) =>{
-  try{
-    await axios.delete(baseUrl + '/' + id);
-  }catch(error){
-    console.log(error)
-  }
+  return null;
 }

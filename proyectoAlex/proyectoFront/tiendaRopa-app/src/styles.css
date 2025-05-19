@@ -1,3 +1,4 @@
+/* ----------- ESTILOS GENERALES APP PRINCIPAL ----------- */
 .app-container {
   min-height: 100vh;
   display: flex;
@@ -7,18 +8,17 @@
 .app-container main {
   flex: 1;
 }
-/* zona barra de navegacion */
-.navbar {
-  padding: 2rem;
+
+/* Barra de navegación */
+.app-container .navbar {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background-color: rgb(52, 52, 52);
-  /* modifico la clase de bootstrap para darle un color diferente a la barra de navegación */
 }
 .navbar-nav .nav-link {
-  /* modifico el color de la fuente para todos los enlaces de la barra */
   color: white;
 }
 .navbar-nav .nav-item {
-  /* he modificado el color de fondo y hice que las esquinas de los bordes sean un pelín redondeadas */
   background-color: rgb(116, 38, 116);
   padding: 5px;
   border-radius: 5px;
@@ -28,35 +28,40 @@
   justify-content: space-between;
 }
 .dropdown .btn {
-  /* le cambió los colores al menú de filtros */
   background-color: rgb(116, 38, 116);
   color: white;
 }
 .dropdown .btn:hover {
-  /* para seguir la dinamica de los links también puse que cuando pases el ratón se ponga la fuente de color negro */
   background-color: rgb(116, 38, 116);
   color: black;
 }
-/* zona tarjeta de productos */
-.card {
+
+/* Tarjetas de productos */
+.app-container .card {
   display: flex;
+  flex-direction: row;
   width: 100%;
-  height: 200px;
-  background-color: #ffffff;
+  height: 220px;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 0px;
+  padding: 0;
   transition: transform 0.2s, box-shadow 0.2s;
+  align-items: center;
 }
+
 .card:hover {
   transform: scale(1.03);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
-.card-img-top {
+.app-container .card-img-top {
   width: 200px;
   height: 200px;
   object-fit: cover;
+  margin: 0 10px;
+  border-radius: 10px 0 0 10px;
+  align-self: center;
 }
 .card-title {
   color: #333333;
@@ -80,15 +85,12 @@
 .mt-auto {
   margin-top: auto !important;
 }
-/* botones */
 .card .btn-primary {
   background-color: rgb(116, 38, 116);
   color: white;
   border: none;
   border-radius: 4px;
 }
-
-/* Solo los botones grandes personalizados */
 .card .btn-primary:not(.btn-sm) {
   padding: 1px 12px;
   font-size: 1rem;
@@ -97,7 +99,6 @@
   justify-content: center;
   text-align: center;
 }
-
 .card .btn-primary.btn-sm {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
@@ -105,37 +106,73 @@
   align-items: center;
   justify-content: center;
 }
-
 .card .btn-primary:hover {
   background-color: rgb(90, 29, 90);
   color: white;
 }
-
 .card .btn i {
   font-size: 20px;
   color: rgb(116, 38, 116);
 }
-
 .card .btn:hover i {
   color: rgb(90, 29, 90);
 }
-/* - */
 #principal {
   background-color: #e9ecef;
   padding: 20px;
   min-height: 100vh;
 }
 
-/* iconos */
+/* Iconos */
 #iconoCarro {
   font-size: 25px;
 }
-
 #iconoBolsa {
   font-size: 30px;
 }
-
 #iconoTienda {
   width: 65px;
   height: 65px;
+}
+
+/* ----------- ESTILOS FORMULARIOS LOGIN Y REGISTRO ----------- */
+.form-container,
+.form-container-login,
+.form-container-registro {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: rgb(72, 72, 72) !important;
+  color: white !important;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.form-container-registro {
+  max-width: 650px;
+}
+
+.form-container .form-label,
+.form-container-login .form-label,
+.form-container-registro .form-label {
+  color: white !important;
+}
+
+.form-container .form-text,
+.form-container-login .form-text,
+.form-container-registro .form-text {
+  color: #cccccc !important;
+}
+
+.form-container .btn-primary,
+.form-container-login .btn-primary,
+.form-container-registro .btn-primary {
+  background-color: rgb(116, 38, 116) !important;
+  border: none !important;
+}
+
+.form-container .btn-primary:hover,
+.form-container-login .btn-primary:hover,
+.form-container-registro .btn-primary:hover {
+  background-color: rgb(90, 29, 90) !important;
 }

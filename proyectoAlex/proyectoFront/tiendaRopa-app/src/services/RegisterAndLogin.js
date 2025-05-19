@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base_url="http://localhost:8080/";
+const base_url="http://localhost:8080";
 // Peticion POST que se encarga de registrar al usuario
 export const register = async (nombre,apellidos,email,direccion,userName,password) => {
     try{
@@ -12,3 +12,15 @@ const response = await axios.post(base_url + "/usuario/registro",
     }
     return undefined;
 }
+export const login = async (userName, password) => {
+  try {
+    const response = await axios.post(base_url + "/login", {
+      userName,
+      password,
+    });
+    return response;
+  } catch (error) {
+    console.log("Error en la petición POST: " + error);
+    return undefined;
+  }
+};

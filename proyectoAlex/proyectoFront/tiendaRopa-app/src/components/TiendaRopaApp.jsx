@@ -1,24 +1,50 @@
 import { useEffect, useState } from "react";
-import { findAll } from "../services/ProductoService";
+import {
+  findAll,
+  findNombreAsc,
+  findNombreDesc,
+  findPrecioAsc,
+  findPrecioDesc,
+  findByCategoria,
+} from "../services/ProductoService";
 import { CargarProd } from "./Producto/CargarProd";
-import { NavBar } from "./Nav/NavBar";
+import { NavBar } from "./nav/Navbar";
 export const TiendaRopaApp = () => {
   const [productos, setProductos] = useState([]);
-  const getProductos = async () => {
-    try {
-      // LLamo a la funcion del servicio que es una peticion GET que me deberia mostrar todos los productos
-      const result = await findAll();
-      // console.log("prods", result.data);
-      if (result && result.data) {
-        //si se obtiene el resultado invoco el setProductos con los resultados que obtuve de la peticion
-        setProductos(result.data);
-      } else {
-        //en caso contrario devuelve por consola un error
-        console.error("Error la estructura de la API no es la correcta");
-        setProductos([]);
-      }
-    } catch (error) {
-      console.error("Error al obtener los productos", error);
+  const getProductos = async (filtro) => {
+    let result;
+    switch (filtro) {
+      case "precioAsc":
+        result = await findPrecioAsc();
+        break;
+      case "precioDes":
+        result = await findPrecioDesc();
+        break;
+      case "nombreAsc":
+        result = await findNombreAsc();
+        break;
+      case "nombreDes":
+        result = await findNombreDesc();
+        break;
+      default:
+        result = await findAll();
+    }
+    if (result && result.data) {
+      setProductos(result.data);
+    } else {
+      setProductos([]);
+    }
+  };
+  const getProductosPorCategoria = async (categoriaId) => {
+    let result;
+    if (categoriaId === "todos") {
+      result = await findAll();
+    } else {
+      result = await findByCategoria(categoriaId);
+    }
+    if (result && result.data) {
+      setProductos(result.data);
+    } else {
       setProductos([]);
     }
   };
@@ -29,7 +55,10 @@ export const TiendaRopaApp = () => {
     <>
       <div className="app-container">
         <header className="mb-5">
-          <NavBar />
+          <NavBar
+            onFiltrar={getProductos}
+            onFiltrarCategoria={getProductosPorCategoria}
+          />
         </header>
         <main className="container" style={{ paddingTop: "80px" }}>
           <CargarProd productos={productos} />

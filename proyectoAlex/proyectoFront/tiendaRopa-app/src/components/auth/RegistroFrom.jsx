@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const initialDataForm = {
   nombre: "",
@@ -39,11 +39,12 @@ export const RegistroFrom = ({ handlerAdd }) => {
       >
         <div className="row">
           <div className="mb-3 col-md-6">
-            <label for="nombre" className="form-label">
+            <label htmlFor="nombre" className="form-label">
               Nombre
             </label>
             <input
               className="form-control"
+              id="nombre"
               placeholder="Nombre"
               name="nombre"
               type="text"
@@ -55,11 +56,12 @@ export const RegistroFrom = ({ handlerAdd }) => {
             />
           </div>
           <div className="mb-3 col-md-6">
-            <label for="apellidos" className="form-label">
+            <label htmlFor="apellidos" className="form-label">
               Apellidos
             </label>
             <input
               className="form-control"
+              id="apellidos"
               placeholder="Apellidos"
               name="apellidos"
               type="text"
@@ -71,11 +73,12 @@ export const RegistroFrom = ({ handlerAdd }) => {
             />
           </div>
           <div className="mb-3 col-md-6">
-            <label for="email" className="form-label">
+            <label htmlFor="email" className="form-label">
               Correo Electrónico
             </label>
             <input
               className="form-control"
+              id="email"
               placeholder="Introduzca un email"
               name="email"
               type="email"
@@ -87,11 +90,12 @@ export const RegistroFrom = ({ handlerAdd }) => {
             />
           </div>
           <div className="mb-3 col-md-6">
-            <label for="direccion" className="form-label">
+            <label htmlFor="direccion" className="form-label">
               Dirección
             </label>
             <input
               className="form-control"
+              id="direccion"
               placeholder="Dirección"
               name="direccion"
               type="text"
@@ -103,11 +107,12 @@ export const RegistroFrom = ({ handlerAdd }) => {
             />
           </div>
           <div className="mb-3 col-md-6">
-            <label for="userName" className="form-label">
+            <label htmlFor="userName" className="form-label">
               Nombre de usuario
             </label>
             <input
               className="form-control"
+              id="userName"
               placeholder="Nombre de usuario"
               type="text"
               name="userName"
@@ -119,11 +124,12 @@ export const RegistroFrom = ({ handlerAdd }) => {
             />
           </div>
           <div className="mb-3 col-md-6">
-            <label for="password" className="form-label">
+            <label htmlFor="password" className="form-label">
               Contraseña
             </label>
             <input
               className="form-control"
+              id="password"
               placeholder="Introduzca una contraseña"
               name="password"
               type="password"
@@ -135,7 +141,7 @@ export const RegistroFrom = ({ handlerAdd }) => {
             />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary w-100">
+        <button type="submit" className="btn btn-primary w-100">
           Registrarse
         </button>
       </form>
