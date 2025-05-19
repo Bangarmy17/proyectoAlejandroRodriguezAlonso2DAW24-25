@@ -57,7 +57,8 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private List<Pedido> pedidos;
-
+    @OneToMany(mappedBy = "usuario")
+    private List<Carrito> carrito;
     @JsonIgnoreProperties({"usuarios","handler","hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(

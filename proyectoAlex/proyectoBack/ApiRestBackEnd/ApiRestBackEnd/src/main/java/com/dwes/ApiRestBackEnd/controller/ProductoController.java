@@ -102,4 +102,8 @@ public class ProductoController {
     public List<ProductoRequestDTO> precioMinYMax(@PathVariable double precioMin,@PathVariable double precioMax){
         return productoService.buscarEntrePrecioMinYMax(precioMin, precioMax);
     }
+    @GetMapping("/filtrado/categoria/{idCategoria}")
+    public List<ProductoRequestDTO> busquedaPorCategoria(@PathVariable long idCategoria){
+        return productoService.buscarProductosPorCategoria(idCategoria);
+    }
 }

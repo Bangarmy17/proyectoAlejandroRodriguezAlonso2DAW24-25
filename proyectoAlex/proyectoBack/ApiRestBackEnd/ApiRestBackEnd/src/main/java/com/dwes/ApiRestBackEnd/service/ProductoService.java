@@ -113,4 +113,9 @@ public class ProductoService {
         List<Producto> productos = productoRepository.buscarPrecioEntreMinYMax(precioMin, precioMax);
         return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> buscarProductosPorCategoria(long idCategoria){
+        List<Producto> productos = productoRepository.buscarProductoPorCategoria(idCategoria);
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
 }
