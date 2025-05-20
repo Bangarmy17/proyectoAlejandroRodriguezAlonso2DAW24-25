@@ -12,4 +12,6 @@ public class ProductoRequestDTO {
     private double precio;
     private int stock;
     private String rutaImagen;
+    private String nombreCategoria;
+    private String nombreTalla;
 }

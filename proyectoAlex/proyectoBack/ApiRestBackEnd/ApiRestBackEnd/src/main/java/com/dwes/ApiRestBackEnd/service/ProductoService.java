@@ -28,6 +28,8 @@ public class ProductoService {
                 .precio(producto.getPrecio())
                 .stock(producto.getStock())
                 .rutaImagen(producto.getRutaImagen())
+                .nombreCategoria(producto.getCategoria().getNombre())
+                .nombreTalla(producto.getTalla().getNombre())
                 .build();
     }
     @Transactional //POST
@@ -116,6 +118,11 @@ public class ProductoService {
     @Transactional(readOnly = true)
     public List<ProductoRequestDTO> buscarProductosPorCategoria(long idCategoria){
         List<Producto> productos = productoRepository.buscarProductoPorCategoria(idCategoria);
+        return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<ProductoRequestDTO> buscarProductosPorTalla(long idTalla){
+        List<Producto> productos = productoRepository.buscarProductoPorTalla(idTalla);
         return productos.stream().map(this::mapToRequestDTO).collect(Collectors.toList());
     }
 }

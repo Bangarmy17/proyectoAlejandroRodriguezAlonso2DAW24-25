@@ -106,4 +106,8 @@ public class ProductoController {
     public List<ProductoRequestDTO> busquedaPorCategoria(@PathVariable long idCategoria){
         return productoService.buscarProductosPorCategoria(idCategoria);
     }
+    @GetMapping("/filtrado/talla/{idTalla}")
+    public List<ProductoRequestDTO> busquedaPorTalla(@PathVariable long idTalla){
+        return productoService.buscarProductosPorTalla(idTalla);
+    }
 }

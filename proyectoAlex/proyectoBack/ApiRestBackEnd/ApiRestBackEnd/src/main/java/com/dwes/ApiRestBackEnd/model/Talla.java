@@ -13,7 +13,4 @@ public class Talla {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nombre;
-
-    @OneToMany(mappedBy = "talla")
-    private List<ProductoTalla> ProductoTallas;
 }

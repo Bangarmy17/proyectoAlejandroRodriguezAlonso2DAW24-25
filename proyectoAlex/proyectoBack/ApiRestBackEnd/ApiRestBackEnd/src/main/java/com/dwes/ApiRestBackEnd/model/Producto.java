@@ -15,24 +15,32 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotBlank
     private String nombre;
+
     private String descripcion;
+
     @NotNull
     private double precio;
+
     @NotNull
     private int stock;
+
     private LocalDateTime fecha_registro = LocalDateTime.now();
+
     private String rutaImagen;
+
+    @ManyToOne
+    @JoinColumn(name = "idCategoria", nullable = false)
+    private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "idTalla", nullable = false)
+    private Talla talla;
 
     @OneToMany(mappedBy = "producto")
     private List<RealizarPedido> realizarPedidos;
-
-    @OneToMany(mappedBy = "producto")
-    private List<ProductoCategoria> productoCategorias;
-
-    @OneToMany(mappedBy = "producto")
-    private List<ProductoCategoria> productoTallas;
 
     @OneToMany(mappedBy = "producto")
     private List<Carrito> carrito;

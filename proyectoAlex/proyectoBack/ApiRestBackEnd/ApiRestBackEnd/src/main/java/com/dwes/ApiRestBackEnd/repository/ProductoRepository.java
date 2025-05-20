@@ -36,8 +36,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     @Query("SELECT p FROM Producto p WHERE p.precio BETWEEN ?1 AND ?2 ORDER BY p.precio ASC")
     List<Producto> buscarPrecioEntreMinYMax(double precioMin, double precioMax);
 
-    @Query("SELECT p FROM Producto p JOIN ProductoCategoria pc ON p.id = pc.producto.id WHERE pc.categoria.id = ?1")
+    @Query("SELECT p FROM Producto p WHERE p.categoria.id = ?1")
     List<Producto> buscarProductoPorCategoria(long idCategoria);
+
+    @Query("SELECT p FROM Producto p WHERE p.talla.id = ?1")
+    List<Producto> buscarProductoPorTalla(long idTalla);
+
+
 }
 
 
