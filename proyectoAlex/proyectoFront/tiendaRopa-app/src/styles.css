@@ -4,15 +4,14 @@
   display: flex;
   flex-direction: column;
 }
-
-.app-container main {
+/* .app-container main {
   flex: 1;
-}
-
+} */
 /* Barra de navegación */
 .app-container .navbar {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  min-height: 40px;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
   background-color: rgb(52, 52, 52);
 }
 .navbar-nav .nav-link {
@@ -22,6 +21,18 @@
   background-color: rgb(116, 38, 116);
   padding: 5px;
   border-radius: 5px;
+}
+.btn-morado-navbar:hover,
+.btn-morado-navbar:focus {
+  background-color: #a259c4;
+  color: #fff;
+}
+.btn-morado-navbar {
+  background-color: rgb(116, 38, 116);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 16px;
 }
 .navbar-collapse {
   align-items: center;
@@ -117,11 +128,6 @@
 .card .btn:hover i {
   color: rgb(90, 29, 90);
 }
-#principal {
-  background-color: #e9ecef;
-  padding: 20px;
-  min-height: 100vh;
-}
 
 /* Iconos */
 #iconoCarro {
@@ -136,6 +142,9 @@
 }
 
 /* ----------- ESTILOS FORMULARIOS LOGIN Y REGISTRO ----------- */
+body {
+  background-color: #30223b;
+}
 .form-container,
 .form-container-login,
 .form-container-registro {

@@ -28,17 +28,31 @@ FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 -- Inserción de registros en la tabla roles
 INSERT INTO roles (name) VALUES ('ROLE_ADMIN'), ('ROLE_USER');
-
+-- Tabla para categorías
+CREATE TABLE categoria (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(45) NOT NULL
+);
+-- Tabla para tallas
+CREATE TABLE talla (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(10) NOT NULL
+);
 -- Tabla para donde se guarden los productos
 CREATE TABLE producto (
-id INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(45) NOT NULL,
-descripcion TEXT,
-precio DECIMAL(10,2) NOT NULL,
-stock INT NOT NULL,
-fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-rutaImagen VARCHAR(255)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(45) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rutaImagen VARCHAR(255),
+    idCategoria INT NOT NULL,
+    idTalla INT NOT NULL,
+    FOREIGN KEY (idCategoria) REFERENCES categoria(id) ON DELETE CASCADE,
+    FOREIGN KEY (idTalla) REFERENCES talla(id) ON DELETE CASCADE
 );
+
 -- tabla donde guardará el usuario los productos para luego procesar el pedido
 CREATE TABLE carrito (
 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,32 +82,4 @@ idProducto INT NOT NULL,
 FOREIGN KEY (idPedido) REFERENCES pedido(id) ON DELETE CASCADE,
 FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE
 );
--- Tabla para categorías
-CREATE TABLE categoria (
-id INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(45) NOT NULL
-);
--- Tabla para tallas
-CREATE TABLE talla (
-id INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(10) NOT NULL
-);
--- Relación muchos a muchos entre Producto y Categoria
-CREATE TABLE productoCategoria (
-id INT AUTO_INCREMENT PRIMARY KEY,
-idProducto INT NOT NULL,
-idCategoria INT NOT NULL,
-FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE,
-FOREIGN KEY (idCategoria) REFERENCES categoria(id) ON DELETE CASCADE
-);
--- Relación muchos a muchos entre Producto y Talla
-CREATE TABLE productoTalla (
-id INT AUTO_INCREMENT PRIMARY KEY,
-idProducto INT NOT NULL,
-idTalla INT NOT NULL,
-stock INT NOT NULL, -- Stock específico por talla
-FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE,
-FOREIGN KEY (idTalla) REFERENCES talla(id) ON DELETE CASCADE
-);
-
 -- DROP database tiendaRopa;

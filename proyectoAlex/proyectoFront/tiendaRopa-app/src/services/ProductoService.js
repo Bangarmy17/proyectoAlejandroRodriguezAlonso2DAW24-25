@@ -88,3 +88,12 @@ export const findByCategoria = async (idCategoria) =>{
   }
   return null;
 }
+export const findByTalla = async (idTalla) =>{
+  try{
+    const response = await axios.get(baseUrl + "/filtrado/talla/" + idTalla)
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}

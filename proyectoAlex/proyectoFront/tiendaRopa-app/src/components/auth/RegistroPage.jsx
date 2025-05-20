@@ -17,7 +17,7 @@ export const RegistroPage = () => {
     if (response && response.status === 201) {
       navigate("/");
     } else {
-      alert("Error al registrar. Inténtalo de nuevo.");
+      alert("Error al registrarse. Inténtalo de nuevo.");
     }
   };
 

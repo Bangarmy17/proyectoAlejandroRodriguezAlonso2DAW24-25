@@ -12,6 +12,8 @@ const response = await axios.post(base_url + "/usuario/registro",
     }
     return undefined;
 }
+// peticion POST que se encarga de iniciar sesion mediante el usuario y la contraseña
+//y la contraseña genera un token que se almacena en el localStorage
 export const login = async (userName, password) => {
   try {
     const response = await axios.post(base_url + "/login", {

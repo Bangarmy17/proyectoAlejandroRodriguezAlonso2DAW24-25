@@ -21,7 +21,6 @@ createRoot(document.getElementById("root")).render(
         />
         <Route path="/usuario/registro" element={<RegistroPage />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* ...otras rutas */}
       </Routes>
     </BrowserRouter>
   </StrictMode>

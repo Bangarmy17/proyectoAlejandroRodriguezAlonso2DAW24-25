@@ -9,6 +9,7 @@ export const LoginPage = () => {
     const response = await login(form.userName, form.password);
     if (response && response.status === 200) {
       localStorage.setItem("token", response.data.token || "true");
+      localStorage.setItem("isAdmin", response.data.admin ? "true" : "false");
       navigate("/");
     } else {
       alert("Usuario o contraseña incorrectos");
