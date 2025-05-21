@@ -10,8 +10,17 @@ export const NavBar = ({
   onFiltrarTalla,
   onBuscar,
   isLogged,
-  onLogout,
 }) => {
+  // Lee si es admin del localStorage
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+
+  //Me aseguro de cerrar sesión al pulsar el botón (que lo tengo donde muestro la navbar)
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("userId");
+    window.location.reload();
+  };
   return (
     <nav className="navbar navbar-expand-lg fixed-top border-bottom w-100 bg-dark">
       <div className="container">
@@ -79,29 +88,30 @@ export const NavBar = ({
               ) : (
                 <li className="nav-item">
                   <button
-                    className="nav-link btn btn-outline-danger btn-sm w-100"
+                    className="nav-link btn btn-sm btn-morado-navbar"
                     onClick={onLogout}
                   >
                     Cerrar sesión
                   </button>
                 </li>
               )}
-              <li className="nav-item">
-                <a
-                  className="nav-link btn btn-outline-warning btn-sm w-100"
-                  href="/html/gestionAdministrador.html"
-                >
-                  ADMIN
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link btn btn-sm d-flex align-items-center justify-content-center w-100"
-                  href="#"
-                >
-                  <i className="bi bi-cart" id="iconoCarro"></i>
-                </a>
-              </li>
+              {/* Solo muestra el botón ADMIN si es admin */}
+              {isAdmin && (
+                <li className="nav-item">
+                  <a
+                    className="nav-link btn btn-outline-warning btn-sm w-100"
+                    href="/html/gestionAdministrador.html"
+                  >
+                    ADMIN
+                  </a>
+                </li>
+              )}
+              <Link
+                className="nav-link btn btn-sm btn-morado-navbar"
+                to="/carrito"
+              >
+                <i className="bi bi-cart" id="iconoCarro"></i>
+              </Link>
             </ul>
           </div>
         </div>
@@ -111,7 +121,6 @@ export const NavBar = ({
           id="navbarSupportedContent"
         >
           <div className="d-flex align-items-stretch w-100 gap-2">
-            {/* Filtros en un div con ancho máximo y shrink */}
             <div
               className="d-flex align-items-stretch gap-2 flex-grow-1 flex-shrink-1"
               style={{ maxWidth: "65%" }}
@@ -121,7 +130,7 @@ export const NavBar = ({
               <FiltroTalla onFiltrarTalla={onFiltrarTalla} />
               <FiltroCategoria onFiltrarCategoria={onFiltrarCategoria} />
             </div>
-            {/* Botones en un div aparte, no se encogen */}
+            {/* Botones en un div aparte*/}
             <div className="d-flex align-items-stretch gap-2 flex-shrink-0">
               {!isLogged ? (
                 <>
@@ -146,18 +155,21 @@ export const NavBar = ({
                   Cerrar sesión
                 </button>
               )}
-              <a
+              {/* Solo muestra el botón ADMIN si es admin*/}
+              {isAdmin && (
+                <a
+                  className="nav-link btn btn-sm btn-morado-navbar"
+                  href="/html/gestionAdministrador.html"
+                >
+                  ADMIN
+                </a>
+              )}
+              <Link
                 className="nav-link btn btn-sm btn-morado-navbar"
-                href="/html/gestionAdministrador.html"
-              >
-                ADMIN
-              </a>
-              <a
-                className="nav-link btn btn-sm d-flex align-items-center justify-content-center btn-morado-navbar"
-                href="#"
+                to="/carrito"
               >
                 <i className="bi bi-cart" id="iconoCarro"></i>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

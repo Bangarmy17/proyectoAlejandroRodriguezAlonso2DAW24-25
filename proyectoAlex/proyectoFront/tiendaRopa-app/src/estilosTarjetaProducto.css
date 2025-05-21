@@ -1,0 +1,17 @@
+.producto-card {
+  background: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+.producto-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+.producto-card-img {
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+.producto-card-title {
+  word-break: break-word;
+}

@@ -60,7 +60,8 @@ export const PanelAdmin = () => {
       const response = await update(producto);
       setProductos(
         productos.map((prod) => {
-          // en caso de que el nuevo producto coincidiese con el id de uno de los productos de la lista lo remplazo
+          // en caso de que el nuevo producto coincidiese con el id de uno de los
+          // productos de la lista lo remplazo
           if (prod.id === response.data.id) {
             return { ...response.data };
           }

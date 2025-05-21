@@ -39,5 +39,14 @@ INSERT INTO producto (nombre, descripcion, precio, stock, rutaImagen, idCategori
 ('Sudadera Itachi', 'Sudadera con diseño de Itachi Uchiha de Naruto', 39.99, 15, '/images/sudadera_itachi.webp', 3, 4),
 ('Sudadera Satoru Gojo', 'Sudadera inspirada en Satoru Gojo de Jujutsu Kaisen', 39.99, 20, '/images/sudadera_satoruGojo.jpg', 3, 3);
 
+INSERT INTO pedido (precioTotal, idUsuario) VALUES
+(69.97, 2), 
+(89.97, 1); 
+
+INSERT INTO realizarPedido (cantidad, subtotal, idPedido, idProducto) VALUES
+(2, 39.98, 1, 6),  
+(1, 29.99, 1, 12), 
+(3, 29.97, 2, 1),  
+(1, 59.99, 2, 15); 
 -- DELETE FROM producto;
 -- TRUNCATE TABLE producto;
