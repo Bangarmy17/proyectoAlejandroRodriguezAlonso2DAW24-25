@@ -16,8 +16,9 @@ public class Carrito {
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
     @ManyToOne
-    @JoinColumn(name = "idProducto")
+    @JoinColumn(name = "idProducto" , nullable = true)
     private Producto producto;
+
     private int cantidad;
     private LocalDateTime fecha_agregado = LocalDateTime.now();
 }

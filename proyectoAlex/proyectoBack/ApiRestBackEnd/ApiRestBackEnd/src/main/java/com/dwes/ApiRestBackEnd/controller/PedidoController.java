@@ -28,7 +28,7 @@ public class PedidoController {
     public Pedido crearPedido(Long idUsuario, List<RealizarPedido> carrito){
         return pedidoService.crearPedido(idUsuario, carrito);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<PedidoRequestDTO> listarPedidos(){
         return pedidoService.listarPedidos();

@@ -1,6 +1,7 @@
 package com.dwes.ApiRestBackEnd.config.filter;
 
 import com.dwes.ApiRestBackEnd.model.Usuario;
+import com.dwes.ApiRestBackEnd.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
-import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,13 +25,12 @@ import java.util.Map;
 import static com.dwes.ApiRestBackEnd.config.TokenJwtConfig.*;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
-
+    private UsuarioRepository usuarioRepository;
     @Autowired
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager){
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository){
         this.authenticationManager = authenticationManager;
+        this.usuarioRepository = usuarioRepository;
     }
-
-
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
@@ -54,27 +53,38 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         org.springframework.security.core.userdetails.User user=(org.springframework.security.core.userdetails.User)authResult.getPrincipal();
         //Obtengo el username
         String username = user.getUsername();
-        //Obtengo los roles
+        Usuario usuario = usuarioRepository.findByUserName(username).orElse(null);
+
+        // Calcula si es admin (ajusta según tu modelo de roles)
+        boolean isAdmin = usuario != null && usuario.getRoles().stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase("ROLE_ADMIN"));
+
+        // Obtengo los roles
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
-        //Se añade los roles y el username a los claims que se agregaran al token
+
+        // Se añade los roles y el username a los claims que se agregaran al token
         Claims claims = Jwts.claims()
-                .add("authorities",new ObjectMapper().writeValueAsString(roles))
-                .add("username",username)
+                .add("authorities", new ObjectMapper().writeValueAsString(roles))
+                .add("username", username)
                 .build();
-        //Genero un token con la llave secreta y le añado los datos
+
+        // Genero un token con la llave secreta y le añado los datos
         String token = Jwts.builder().subject(username)
                 .claims(claims)
-                .expiration(new Date(System.currentTimeMillis()+3600000)) //fecha de expiracion
-                .issuedAt(new Date()) //la fecha actual
+                .expiration(new Date(System.currentTimeMillis() + 3600000)) // fecha de expiracion
+                .issuedAt(new Date()) // la fecha actual
                 .signWith(SECRET_KEY).compact();
-        //Se devuelve el token al cliente
-        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN+token);
-        //Lo paso tambien como una respuesta JSON
-        Map<String,String> body = new HashMap<>();
-        body.put("token",token);
+
+        // Construye el body con los nuevos datos
+        Map<String, String> body = new HashMap<>();
+        body.put("token", token);
         body.put("username", username);
-        body.put("message",String.format("Hola %s has iniciado sesion con exito",username));
-        //Escribo el JSON en la respuesta
+        if (usuario != null) {
+            body.put("id", String.valueOf(usuario.getId()));
+            body.put("admin", String.valueOf(isAdmin));
+        }
+        body.put("message", String.format("Hola %s has iniciado sesion con exito", username));
+
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setContentType(CONTENT_TYPE);
         response.setStatus(200);

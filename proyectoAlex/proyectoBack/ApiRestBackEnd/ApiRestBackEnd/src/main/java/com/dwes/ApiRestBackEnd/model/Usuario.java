@@ -60,7 +60,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Carrito> carrito;
     @JsonIgnoreProperties({"usuarios","handler","hibernateLazyInitializer"})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

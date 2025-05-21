@@ -71,7 +71,7 @@ public class UsuarioController {
     public UsuarioFullInfoRequestDTO obtenerUsuarioPorId(@PathVariable long id){
         return usuarioService.mostrarUsuarioPorId(id);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/obtenerCorreoPasswdYUsername")
     public List<UsuarioRequestDTO> obtenerCorreoPasswdYUsername(){
         return usuarioService.obtenerCorreoContraYUsername();
