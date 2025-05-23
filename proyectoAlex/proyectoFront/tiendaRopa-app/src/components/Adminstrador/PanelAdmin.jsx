@@ -17,6 +17,7 @@ import {
   borrarPedidoPorId,
 } from "../../services/PedidoService";
 import { PedidoGrid } from "../Pedido/PedidoGrid";
+import "../../admin.css";
 
 // metodos de producto
 export const PanelAdmin = () => {
@@ -110,7 +111,7 @@ export const PanelAdmin = () => {
   const getPedidos = async () => {
     try {
       const result = await listadoPedidos();
-      console.log("pedidos", result.data);
+      //console.log("pedidos", result.data);
       if (result && result.data) {
         setPedidos(result.data);
       } else {
@@ -124,17 +125,24 @@ export const PanelAdmin = () => {
   useEffect(() => {
     getPedidos();
   }, []);
-  const handlerRemovePedido = (id) => {
-    borrarPedidoPorId(id);
-    setPedidos(pedidos.filter((pedido) => pedido.id != id));
+  const handlerRemovePedido = async (id) => {
+    try {
+      await borrarPedidoPorId(id); // Espera a que se borre en el backend
+      setPedidos((prevPedidos) =>
+        prevPedidos.filter((pedido) => pedido.idPedido !== id)
+      );
+    } catch (error) {
+      alert("Error al borrar el pedido");
+    }
   };
   return (
     <>
-      <div id="principal" className="container my-4">
+      <div id="principal" className="container my-4 panel-admin">
         <h3 className="d-flex justify-content-center">Gestion de Productos</h3>
         <div className="row">
           <div className="col">
             <CreacionProductoForm
+              className="admin-producto-form"
               handlerAdd={handlerAddProducto}
               productoSelected={productoSelected}
             />
@@ -145,6 +153,7 @@ export const PanelAdmin = () => {
                 Listado de productos
               </h3>
               <ProductoGrid
+                className="admin-producto-grid"
                 productos={productos}
                 handlerRemove={handlerRemoveProducto}
                 handlerUpdate={handlerProductoSelected}
@@ -156,6 +165,7 @@ export const PanelAdmin = () => {
           <h3 className="d-flex justify-content-center">Gestion de Usuarios</h3>
           <div className="row my-4">
             <UsuarioGrid
+              className="admin-usuario-grid"
               usuarios={usuarios}
               handlerRemove={handlerRemoveUsuario}
             ></UsuarioGrid>
@@ -165,6 +175,7 @@ export const PanelAdmin = () => {
           <h3 className="d-flex justify-content-center">Listado de Pedidos</h3>
           <div className="row my-4">
             <PedidoGrid
+              className="admin-pedido-grid"
               pedidos={pedidos}
               handlerRemove={handlerRemovePedido}
             ></PedidoGrid>

@@ -3,7 +3,7 @@ import { FiltroBusqueda } from "./FiltroBusqueda";
 import { FiltroOrdenar } from "./FiltroOrdenar";
 import { FiltroTalla } from "./FiltroTalla";
 import { FiltroCategoria } from "./FiltroCategoria";
-
+import { useNavigate } from "react-router-dom";
 export const NavBar = ({
   onFiltrar,
   onFiltrarCategoria,
@@ -11,16 +11,18 @@ export const NavBar = ({
   onBuscar,
   isLogged,
 }) => {
-  // Lee si es admin del localStorage
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
-
+  const navigate = useNavigate();
+  // Lee los roles del localStorage
+  const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+  const isAdmin = roles.includes("ROLE_ADMIN");
   //Me aseguro de cerrar sesión al pulsar el botón (que lo tengo donde muestro la navbar)
   const onLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("isAdmin");
     localStorage.removeItem("userId");
+    localStorage.removeItem("roles");
     window.location.reload();
   };
+  // console.log("Roles:", roles, "¿Es admin?:", isAdmin);
   return (
     <nav className="navbar navbar-expand-lg fixed-top border-bottom w-100 bg-dark">
       <div className="container">
@@ -98,12 +100,12 @@ export const NavBar = ({
               {/* Solo muestra el botón ADMIN si es admin */}
               {isAdmin && (
                 <li className="nav-item">
-                  <a
+                  <button
                     className="nav-link btn btn-outline-warning btn-sm w-100"
-                    href="/html/gestionAdministrador.html"
+                    onClick={() => navigate("/admin")}
                   >
                     ADMIN
-                  </a>
+                  </button>
                 </li>
               )}
               <Link
@@ -157,12 +159,12 @@ export const NavBar = ({
               )}
               {/* Solo muestra el botón ADMIN si es admin*/}
               {isAdmin && (
-                <a
-                  className="nav-link btn btn-sm btn-morado-navbar"
-                  href="/html/gestionAdministrador.html"
+                <button
+                  className="nav-link btn btn-outline-warning btn-sm w-100"
+                  onClick={() => navigate("/admin")}
                 >
                   ADMIN
-                </a>
+                </button>
               )}
               <Link
                 className="nav-link btn btn-sm btn-morado-navbar"

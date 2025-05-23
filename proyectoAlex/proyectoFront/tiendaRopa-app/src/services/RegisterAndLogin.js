@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosConfig";
 
 const base_url="http://localhost:8080";
 // Peticion POST que se encarga de registrar al usuario

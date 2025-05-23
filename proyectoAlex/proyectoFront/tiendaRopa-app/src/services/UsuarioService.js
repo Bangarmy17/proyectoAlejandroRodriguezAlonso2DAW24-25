@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosConfig";
 const baseUrl="http://localhost:8080/usuario";
 
 //Peticion GET de un listado de usuarios DTO que me 

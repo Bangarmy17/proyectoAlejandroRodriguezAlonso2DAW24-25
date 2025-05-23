@@ -7,6 +7,7 @@ import { TiendaRopaApp } from "./components/TiendaRopaApp";
 import { RegistroPage } from "./components/auth/RegistroPage";
 import { LoginPage } from "./components/auth/LoginPage";
 import { Carrito } from "./components/Carrito/Carrito";
+import { PanelAdmin } from "./components/Adminstrador/PanelAdmin";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -19,12 +20,10 @@ createRoot(document.getElementById("root")).render(
             </>
           }
         />
+        <Route path="/admin" element={<PanelAdmin />} />
         <Route path="/usuario/registro" element={<RegistroPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/carrito"
-          element={<Carrito idUsuario={localStorage.getItem("userId")} />}
-        />
+        <Route path="/carrito" element={<Carrito />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

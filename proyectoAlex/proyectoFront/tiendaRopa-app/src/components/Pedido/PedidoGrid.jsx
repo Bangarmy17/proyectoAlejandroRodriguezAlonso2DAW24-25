@@ -18,7 +18,7 @@ export const PedidoGrid = ({ handlerRemove, pedidos = [] }) => {
             {pedidos.map((pedido) => {
               return (
                 <PedidoDetail
-                  key={pedido.id}
+                  key={pedido.idPedido}
                   handlerRemove={handlerRemove}
                   pedido={pedido}
                 />

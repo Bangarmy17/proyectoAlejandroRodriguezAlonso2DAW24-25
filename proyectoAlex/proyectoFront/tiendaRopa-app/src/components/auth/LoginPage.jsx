@@ -1,27 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/RegisterAndLogin";
 import { LoginForm } from "./LoginForm";
+import { jwtDecode } from "jwt-decode";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
 
   const handlerLogin = async (form) => {
-    // Lo primero que hago es llamar a la funcion de login
     const response = await login(form.userName, form.password);
-    // Si la respuesta es correcta, guardo el token en el localStorage
-    // y redirijo a la pagina principal
     if (response && response.status === 200) {
-      // Guardar el token en el localStorage para mantener la sesión
       localStorage.setItem("token", response.data.token || "true");
-      // Y con esto lo que hago es guardar el id del usuario que lo voy a necesitar para el carrito por ejemplo XD
-      localStorage.setItem(
-        "isAdmin",
-        response.data.admin === "true" ? "true" : "false"
-      );
       localStorage.setItem("userId", response.data.id || "");
-      navigate("/"); // Redirige a la página principal
+
+      // Decodifica el token y guarda los roles
+      try {
+        const tokenDecodificado = jwtDecode(response.data.token);
+        // console.log("Token decodificado:", tokenDecodificado);
+        let authorities = tokenDecodificado.authorities;
+        if (typeof authorities === "string") {
+          authorities = JSON.parse(authorities.replace(/'/g, '"'));
+        }
+        const roles = Array.isArray(authorities)
+          ? authorities.map((auth) => auth.authority)
+          : [];
+        console.log("Roles extraídos:", roles);
+        localStorage.setItem("roles", JSON.stringify(roles));
+      } catch (e) {
+        localStorage.setItem("roles", "[]");
+      }
+
+      navigate("/");
     } else {
-      // Si la respuesta no es correcta, muestro un mensaje de error
       alert("Usuario o contraseña incorrectos");
     }
   };
