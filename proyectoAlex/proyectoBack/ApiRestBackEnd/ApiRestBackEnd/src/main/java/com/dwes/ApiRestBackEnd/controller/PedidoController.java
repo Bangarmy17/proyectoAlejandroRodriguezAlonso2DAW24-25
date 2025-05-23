@@ -28,19 +28,19 @@ public class PedidoController {
     public Pedido crearPedido(Long idUsuario, List<RealizarPedido> carrito){
         return pedidoService.crearPedido(idUsuario, carrito);
     }
-    //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/listarPedidos")
     public List<PedidoRequestDTO> listarPedidos(){
         return pedidoService.listarPedidos();
     }
 
-    @GetMapping("/obtenerPorId")
+    @GetMapping("/obtenerPorId/{id}")
     public PedidoRequestDTO buscarPedidoPorId(@PathVariable long id){
         return pedidoService.buscarPedidoById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/borrarPedidosById")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<Void> borrarPedidosPorId(@PathVariable long id){
         try{
             pedidoService.borrarPedidoPorId(id);

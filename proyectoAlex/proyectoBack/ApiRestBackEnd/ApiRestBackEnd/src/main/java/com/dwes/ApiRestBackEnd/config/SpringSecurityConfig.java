@@ -43,13 +43,13 @@ public class SpringSecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+//.requestMatchers("/**").permitAll()
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/**").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/producto").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/carrito/**").permitAll()
+                        .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/producto/filtrado/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/registro").permitAll()
