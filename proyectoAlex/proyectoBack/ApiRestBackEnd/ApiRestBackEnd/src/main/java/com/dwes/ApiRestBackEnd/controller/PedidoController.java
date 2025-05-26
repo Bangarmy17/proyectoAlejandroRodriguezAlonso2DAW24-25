@@ -24,11 +24,12 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-    @PostMapping("/crearPedido")
-    public Pedido crearPedido(Long idUsuario, List<RealizarPedido> carrito){
-        return pedidoService.crearPedido(idUsuario, carrito);
+    @PostMapping("/crearPedido/{idUsuario}")
+    public ResponseEntity<Pedido> crearPedido(@PathVariable long idUsuario){
+       Pedido pedido = pedidoService.crearPedido(idUsuario);
+       return ResponseEntity.ok(pedido);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("/listarPedidos")
     public List<PedidoRequestDTO> listarPedidos(){
         return pedidoService.listarPedidos();

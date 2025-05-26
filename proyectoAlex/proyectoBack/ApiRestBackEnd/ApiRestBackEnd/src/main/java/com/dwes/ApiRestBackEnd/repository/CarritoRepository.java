@@ -17,4 +17,5 @@ public interface CarritoRepository extends JpaRepository<Carrito, Long> {
     @Query("SELECT c FROM Carrito c WHERE c.usuario.id = ?1 AND c.producto.id = ?2")
     Optional<Carrito> findByUsuarioAndProducto(long idUsuario, long idProducto);
 
+    void deleteByUsuarioId(long idUsuario);
 }

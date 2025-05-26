@@ -47,7 +47,9 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests((authz) -> authz
-
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/tallas").permitAll()
+                        .requestMatchers("/categorias").permitAll()
                         .requestMatchers(HttpMethod.GET, "/producto").permitAll()
                         .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/producto/filtrado/**").permitAll()

@@ -2,6 +2,7 @@ package com.dwes.ApiRestBackEnd.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank
+    @NotNull
     private double precioTotal;
     private LocalDateTime fecha_registro;
 
