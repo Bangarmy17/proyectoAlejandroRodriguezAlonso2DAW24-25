@@ -14,26 +14,42 @@ export const findAll = async () =>{
   return null;
 }
 //Peticion POST con la que podré crear los productos
-export const create = async ({nombre,descripcion,precio,stock})=>{
-  try{
-    const response = await axios.post(baseUrl , {nombre:nombre, descripcion:descripcion, precio:precio, stock:stock})
+export const create = async ({nombre, descripcion, precio, stock, categoria, talla}) => {
+  try {
+    const response = await axios.post(baseUrl, {
+      nombre,
+      descripcion,
+      precio,
+      stock,
+      categoria: { id: parseInt(categoria) },
+      talla: { id: parseInt(talla) }
+    });
     return response;
-  }catch(error){
-    console.log("Error peticion POST: "+error);
+  } catch (error) {
+    console.log("Error peticion POST: " + error);
   }
   return undefined;
-  
-}
+};
 //Peticion PUT con la que podré modificar los productos
-export const update = async({id,nombre,descripcion,precio,stock})=>{
-  try{
-    const response = await axios.put(baseUrl + "/modificarProductoPorId/" + id, {nombre:nombre, descripcion:descripcion, precio:precio, stock:stock})
+export const update = async ({id, nombre, descripcion, precio, stock, categoria, talla}) => {
+  try {
+    const response = await axios.put(
+      baseUrl + "/modificarProductoPorId/" + id,
+      {
+        nombre,
+        descripcion,
+        precio,
+        stock,
+        categoria: { id: parseInt(categoria) },
+        talla: { id: parseInt(talla) }
+      }
+    );
     return response;
-  }catch(error){
-    console.log("Error peticion PUT: "+error);
+  } catch (error) {
+    console.log("Error peticion PUT: " + error);
   }
   return undefined;
-}
+};
 //DELETE 
 export const remove = async(id) =>{
   try{

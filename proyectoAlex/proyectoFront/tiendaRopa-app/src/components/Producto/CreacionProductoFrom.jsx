@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { findAllCategorias } from "../../services/CategoriaService";
+import { findAllTallas } from "../../services/TallaService";
 
 const initialDataForm = {
   nombre: "",
@@ -12,11 +14,26 @@ const initialDataForm = {
 
 export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
   const [form, setForm] = useState(initialDataForm);
-  const { nombre, descripcion, precio, stock, talla, categoria } = form;
-
+  const { id, nombre, descripcion, precio, stock, talla, categoria } = form;
+  const [tallas, setTallas] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   useEffect(() => {
     setForm(productoSelected || initialDataForm);
   }, [productoSelected]);
+
+  // Cargo las tallas y categorias
+  useEffect(() => {
+    const cargarTallas = async () => {
+      const response = await findAllTallas();
+      if (response && response.data) setTallas(response.data);
+    };
+    const cargarCategorias = async () => {
+      const response = await findAllCategorias();
+      if (response && response.data) setCategorias(response.data);
+    };
+    cargarTallas();
+    cargarCategorias();
+  }, []);
 
   const handleFileChange = (event) => {
     setForm({ ...form, imagen: event.target.files[0] });
@@ -38,15 +55,16 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
             alert("Debe rellenar todos los campos del formulario");
             return;
           }
-          const formData = new FormData();
-          formData.append("nombre", nombre);
-          formData.append("descripcion", descripcion);
-          formData.append("precio", precio);
-          formData.append("stock", stock);
-          formData.append("talla", talla);
-          formData.append("categoria", categoria);
-          formData.append("imagen", form.imagen);
-          handlerAdd(formData);
+          const producto = {
+            id,
+            nombre,
+            descripcion,
+            precio: parseFloat(precio),
+            stock: parseInt(stock),
+            categoria,
+            talla,
+          };
+          handlerAdd(producto);
           setForm(initialDataForm);
           event.target.reset();
         }}
@@ -106,10 +124,11 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
               required
             >
               <option value="">Selecciona una talla</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
+              {tallas.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.nombre}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-2">
@@ -122,11 +141,11 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
               required
             >
               <option value="">Selecciona una categoría</option>
-              <option value="camiseta">Camiseta</option>
-              <option value="pantalon">Pantalon</option>
-              <option value="calcetin">Calcetines</option>
-              <option value="gorro">Gorro</option>
-              <option value="sudadera">Sudadera</option>
+              {categorias.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.nombre}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-2">

@@ -7,11 +7,9 @@ export const PedidoGrid = ({ handlerRemove, pedidos = [] }) => {
           <thead>
             <tr>
               <th className="p-2">ID</th>
-              <th className="p-2">Precio Total</th>
-              <th className="p-2">Nombre</th>
-              <th className="p-2">Apellidos</th>
-              <th className="p-2">Direccion</th>
               <th className="p-2">Productos</th>
+              <th className="p-2">Precio Total</th>
+              <th className="p-2">Acciones</th>
             </tr>
           </thead>
           <tbody>

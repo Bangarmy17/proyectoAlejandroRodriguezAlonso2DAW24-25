@@ -73,6 +73,7 @@ export const PanelAdmin = () => {
       const response = await create(producto);
       setProductos([...productos, { ...response.data }]);
     }
+    await getProductos();
   };
   //   borrar producto
   const handlerRemoveProducto = (id) => {
