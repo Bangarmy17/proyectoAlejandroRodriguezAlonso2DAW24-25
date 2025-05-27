@@ -8,6 +8,8 @@ import com.dwes.ApiRestBackEnd.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,6 +78,7 @@ public class PedidoService {
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setPrecioTotal(precioTotal);
+        pedido.setFecha_registro(LocalDateTime.now());
         Pedido pedidoGuardado = pedidoRepository.save(pedido);
         //System.out.println("Pedido guardado con ID: " + pedidoGuardado.getId());
         // Transferir productos del carrito al pedido

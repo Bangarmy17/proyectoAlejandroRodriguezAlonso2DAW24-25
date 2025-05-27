@@ -1,6 +1,7 @@
 package com.dwes.ApiRestBackEnd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -56,6 +57,7 @@ public class Usuario {
 
 
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference
     private List<Pedido> pedidos;
     @OneToMany(mappedBy = "usuario")
     private List<Carrito> carrito;
