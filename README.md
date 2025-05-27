@@ -7,6 +7,9 @@ Dentro de la carpeta proyecto alex dejo también los archivos SQL que use para c
 -------------------INSTALACIÓN------------------------
 
 
-Lo primero que hay que hacer es tener node.js instalado en el equipo en el que se va a probar el proyecto
-Y desde cmd la carpeta del proyecto del front hacer npm i para instalar los NODE_MODULES. Por otro lado en el backend hay que activar la notacion de lombok (se encarga entre otras cosas de los getter y los setters).
+Lo primero que hay que hacer es tener node.js instalado en el equipo en el que se va a probar el proyecto.
+Y desde cmd la carpeta del proyecto del front (/proyectoAlex/proyectoFront/tiendaRopa-app) hacer npm i para instalar los NODE_MODULES,
+además una vez hecho todo eso hay que arrancar el proyecto desde el front usando: npm run dev. 
+Por otro lado en el backend yo uso el IDE que usamos en clase IntelliJ hay que activar la notacion de lombok (se encarga entre otras cosas de los getter y los setters)
+y luego darle al play para que arranque el back.
 Por cierto creo que hay archivos que realmente ya no uso en el proyecto que se han quedado igual ahí.
