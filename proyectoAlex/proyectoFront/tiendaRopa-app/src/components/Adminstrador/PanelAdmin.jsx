@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   create,
   findAll,
@@ -17,172 +17,174 @@ import {
   borrarPedidoPorId,
 } from "../../services/PedidoService";
 import { PedidoGrid } from "../Pedido/PedidoGrid";
-import "../../admin.css";
 
-// metodos de producto
 export const PanelAdmin = () => {
   const [productos, setProductos] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [pedidos, setPedidos] = useState([]);
   const [productoSelected, setProductoSelected] = useState({
+    id: 0,
     nombre: "",
     descripcion: "",
     precio: "",
     stock: "",
+    categoria: "",
+    talla: "",
+    rutaImagen: "",
   });
+  const [activeTab, setActiveTab] = useState("productos"); // Pestaña activa por defecto
 
-  const getProductos = async () => {
+  const fetchData = async (type) => {
     try {
-      // LLamo a la funcion del servicio que es una peticion GET que me deberia mostrar todos los productos
-      const result = await findAll();
-      // console.log("prods", result.data);
-      if (result && result.data) {
-        //si se obtiene el resultado invoco el setProductos con los resultados que obtuve de la peticion
-        setProductos(result.data);
+      let result;
+      if (type === "productos") result = await findAll();
+      else if (type === "usuarios") result = await listadoInfoCuentas();
+      else if (type === "pedidos") result = await listadoPedidos();
+
+      if (result?.data) {
+        if (type === "productos") setProductos(result.data);
+        else if (type === "usuarios") setUsuarios(result.data);
+        else if (type === "pedidos") setPedidos(result.data);
       } else {
-        //en caso contrario devuelve por consola un error
-        console.error("Error la estructura de la API no es la correcta");
-        setProductos([]);
+        console.error(`API ${type} sin datos o estructura incorrecta.`);
       }
     } catch (error) {
-      console.error("Error al obtener los productos", error);
-      setProductos([]);
+      console.error(`Error al obtener ${type}:`, error);
     }
   };
+
   useEffect(() => {
-    getProductos();
+    fetchData("productos");
+    fetchData("usuarios");
+    fetchData("pedidos");
   }, []);
-  //   agregar o modificar producto
+
   const handlerAddProducto = async (producto) => {
-    //si es un producto existente en lugar de crear un producto lo que voy a hacer es modificarlo
-    // console.log("Producto antes de enviar: ", producto);
-    // console.log(producto.id);
-    if (producto.id > 0) {
-      const response = await update(producto);
-      setProductos(
-        productos.map((prod) => {
-          // en caso de que el nuevo producto coincidiese con el id de uno de los
-          // productos de la lista lo remplazo
-          if (prod.id === response.data.id) {
-            return { ...response.data };
-          }
-          return prod;
-        })
-      );
+    const isUpdate = producto.id && producto.id > 0;
+    const response = isUpdate ? await update(producto) : await create(producto);
+    if (response?.data) {
+      fetchData("productos");
+      setProductoSelected({
+        id: 0,
+        nombre: "",
+        descripcion: "",
+        precio: "",
+        stock: "",
+        categoria: "",
+        talla: "",
+        rutaImagen: "",
+      });
     } else {
-      const response = await create(producto);
-      setProductos([...productos, { ...response.data }]);
+      alert(
+        isUpdate ? "Error al actualizar producto." : "Error al crear producto."
+      );
     }
-    await getProductos();
   };
-  //   borrar producto
-  const handlerRemoveProducto = (id) => {
-    remove(id);
-    setProductos(productos.filter((producto) => producto.id != id));
+
+  const handlerRemoveProducto = async (id) => {
+    await remove(id);
+    fetchData("productos");
   };
-  //
+
   const handlerProductoSelected = (producto) => {
-    /* console.log("Prod seleccionado", producto);
-        console.log("id ", producto.id); */
     setProductoSelected({ ...producto });
+    if (activeTab !== "productos") setActiveTab("productos"); // Cambia a la pestaña de productos si se selecciona uno para editar
   };
-  // Gestion de usuarios
-  const getUsuarios = async () => {
-    try {
-      const result = await listadoInfoCuentas();
-      // console.log("usuarios", result.data);
-      if (result && result.data) {
-        setUsuarios(result.data);
-      } else {
-        console.error("Error la estructura de la API no es la correcta");
-        setUsuarios([]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+
+  const handlerRemoveUsuario = async (id) => {
+    await borrarUsuarioPorId(id);
+    fetchData("usuarios");
   };
-  useEffect(() => {
-    getUsuarios();
-  }, []);
-  const handlerRemoveUsuario = (id) => {
-    borrarUsuarioPorId(id);
-    setUsuarios(usuarios.filter((usuario) => usuario.id != id));
-  };
-  // gestion Pedidos
-  const getPedidos = async () => {
-    try {
-      const result = await listadoPedidos();
-      //console.log("pedidos", result.data);
-      if (result && result.data) {
-        setPedidos(result.data);
-      } else {
-        console.error("Error la estructura de la API no es la correcta");
-        setPedidos([]);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getPedidos();
-  }, []);
+
   const handlerRemovePedido = async (id) => {
     try {
-      await borrarPedidoPorId(id); // Espera a que se borre en el backend
-      setPedidos((prevPedidos) =>
-        prevPedidos.filter((pedido) => pedido.idPedido !== id)
-      );
+      await borrarPedidoPorId(id);
+      fetchData("pedidos");
     } catch (error) {
-      alert("Error al borrar el pedido");
+      alert("Error al borrar el pedido.");
     }
   };
-  return (
-    <>
-      <div id="principal" className="container my-4 panel-admin">
-        <h3 className="d-flex justify-content-center">Gestion de Productos</h3>
-        <div className="row">
-          <div className="col">
-            <CreacionProductoForm
-              className="admin-producto-form"
-              handlerAdd={handlerAddProducto}
-              productoSelected={productoSelected}
-            />
-          </div>
-          <div className="row my-4">
-            <div className="col">
-              <h3 className="d-flex justify-content-center">
-                Listado de productos
-              </h3>
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "productos":
+        return (
+          <div className="row g-lg-4">
+            <div className="col-lg-4 mb-4 mb-lg-0">
+              <h4 className="text-white mb-3 fw-light">
+                {productoSelected.id ? "Editar Producto" : "Nuevo Producto"}
+              </h4>
+              <CreacionProductoForm
+                handlerAdd={handlerAddProducto}
+                productoSelected={productoSelected}
+              />
+            </div>
+            <div className="col-lg-8">
+              <h4 className="text-white mb-3 fw-light">Listado de Productos</h4>
               <ProductoGrid
-                className="admin-producto-grid"
                 productos={productos}
                 handlerRemove={handlerRemoveProducto}
                 handlerUpdate={handlerProductoSelected}
-              ></ProductoGrid>
+              />
             </div>
           </div>
-        </div>
-        <div className="my-4">
-          <h3 className="d-flex justify-content-center">Gestion de Usuarios</h3>
-          <div className="row my-4">
+        );
+      case "usuarios":
+        return (
+          <>
+            <h4 className="text-white mb-3 fw-light">Gestión de Usuarios</h4>
             <UsuarioGrid
-              className="admin-usuario-grid"
               usuarios={usuarios}
               handlerRemove={handlerRemoveUsuario}
-            ></UsuarioGrid>
-          </div>
-        </div>
-        <div className="my-4">
-          <h3 className="d-flex justify-content-center">Listado de Pedidos</h3>
-          <div className="row my-4">
-            <PedidoGrid
-              className="admin-pedido-grid"
-              pedidos={pedidos}
-              handlerRemove={handlerRemovePedido}
-            ></PedidoGrid>
-          </div>
-        </div>
+            />
+          </>
+        );
+      case "pedidos":
+        return (
+          <>
+            <h4 className="text-white mb-3 fw-light">Listado de Pedidos</h4>
+            <PedidoGrid pedidos={pedidos} handlerRemove={handlerRemovePedido} />
+          </>
+        );
+      default:
+        return <p className="text-white-50">Selecciona una pestaña.</p>;
+    }
+  };
+
+  return (
+    <div className="container py-4">
+      <h2 className="text-center mb-4 text-white fw-light">
+        Panel de Administración
+      </h2>
+      <ul className="nav nav-pills nav-fill mb-4 admin-tab-nav">
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "productos" ? "active" : ""}`}
+            onClick={() => setActiveTab("productos")}
+          >
+            <i className="bi bi-box-seam-fill me-2"></i>Productos
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "usuarios" ? "active" : ""}`}
+            onClick={() => setActiveTab("usuarios")}
+          >
+            <i className="bi bi-people-fill me-2"></i>Usuarios
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "pedidos" ? "active" : ""}`}
+            onClick={() => setActiveTab("pedidos")}
+          >
+            <i className="bi bi-receipt-cutoff me-2"></i>Pedidos
+          </button>
+        </li>
+      </ul>
+      <div className="tab-content p-3 p-md-4 rounded admin-tab-content-bg shadow-lg">
+        {renderContent()}
       </div>
-    </>
+    </div>
   );
 };

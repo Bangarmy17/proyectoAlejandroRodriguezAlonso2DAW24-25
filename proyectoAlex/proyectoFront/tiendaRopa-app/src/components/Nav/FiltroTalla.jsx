@@ -1,47 +1,49 @@
-export const FiltroTalla = ({ onFiltrarTalla }) => (
-  <div className="dropdown mb-3 me-lg-3">
-    <button
-      className="btn dropdown-toggle w-100"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      Talla
-    </button>
-    <ul className="dropdown-menu w-100">
-      <li>
-        <button className="dropdown-item" onClick={() => onFiltrarTalla(1)}>
-          XS
-        </button>
-      </li>
-      <li>
-        <button className="dropdown-item" onClick={() => onFiltrarTalla(2)}>
-          S
-        </button>
-      </li>
-      <li>
-        <button className="dropdown-item" onClick={() => onFiltrarTalla(3)}>
-          M
-        </button>
-      </li>
-      <li>
-        <button className="dropdown-item" onClick={() => onFiltrarTalla(4)}>
-          L
-        </button>
-      </li>
-      <li>
-        <button className="dropdown-item" onClick={() => onFiltrarTalla(5)}>
-          XL
-        </button>
-      </li>
-      <li>
-        <button
-          className="dropdown-item"
-          onClick={() => onFiltrarTalla("todos")}
-        >
-          Todas las tallas
-        </button>
-      </li>
-    </ul>
-  </div>
-);
+export const FiltroTalla = ({ onFiltrarTalla }) => {
+  const tallas = [
+    { id: 1, nombre: "XS" },
+    { id: 2, nombre: "S" },
+    { id: 3, nombre: "M" },
+    { id: 4, nombre: "L" },
+    { id: 5, nombre: "XL" },
+  ];
+
+  return (
+    <div className="dropdown">
+      <button
+        className="btn btn-sm dropdown-toggle text-white-50"
+        type="button"
+        id="dropdownMenuTalla"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Talla
+      </button>
+      <ul
+        className="dropdown-menu dropdown-menu-dark"
+        aria-labelledby="dropdownMenuTalla"
+      >
+        {tallas.map((talla) => (
+          <li key={talla.id}>
+            <button
+              className="dropdown-item"
+              onClick={() => onFiltrarTalla(talla.id)}
+            >
+              {talla.nombre}
+            </button>
+          </li>
+        ))}
+        <li>
+          <hr className="dropdown-divider" />
+        </li>
+        <li>
+          <button
+            className="dropdown-item"
+            onClick={() => onFiltrarTalla("todos")}
+          >
+            Todas las tallas
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
+};

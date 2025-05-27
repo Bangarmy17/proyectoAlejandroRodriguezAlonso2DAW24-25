@@ -1,37 +1,40 @@
 import { ProductoDetail } from "./ProductoDetail";
+
 export const ProductoGrid = ({
   handlerUpdate,
   handlerRemove,
   productos = [],
 }) => {
+  if (productos.length === 0) {
+    return (
+      <p className="text-center text-white-50">
+        No hay productos para mostrar.
+      </p>
+    );
+  }
   return (
-    <>
-      <div className="d-flex justify-content-center">
-        <table>
-          <thead>
-            <tr>
-              <th className="p-2">Nombre</th>
-              <th className="p-2">Descripcion</th>
-              <th className="p-2">Precio</th>
-              <th className="p-2">Stock</th>
-              <th className="p-2">Actualizar</th>
-              <th className="p-2">Borrar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productos.map((producto) => {
-              return (
-                <ProductoDetail
-                  key={producto.id}
-                  handlerRemove={handlerRemove}
-                  handlerUpdate={handlerUpdate}
-                  producto={producto}
-                />
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </>
+    <div className="table-responsive admin-table-container rounded shadow">
+      <table className="table table-dark table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th className="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {productos.map((producto) => (
+            <ProductoDetail
+              key={producto.id}
+              handlerRemove={handlerRemove}
+              handlerUpdate={handlerUpdate}
+              producto={producto}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };

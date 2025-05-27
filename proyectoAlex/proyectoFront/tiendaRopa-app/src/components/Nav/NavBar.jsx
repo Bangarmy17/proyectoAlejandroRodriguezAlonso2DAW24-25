@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiltroBusqueda } from "./FiltroBusqueda";
 import { FiltroOrdenar } from "./FiltroOrdenar";
 import { FiltroTalla } from "./FiltroTalla";
 import { FiltroCategoria } from "./FiltroCategoria";
-import { useNavigate } from "react-router-dom";
+
 export const NavBar = ({
   onFiltrar,
   onFiltrarCategoria,
@@ -12,168 +12,212 @@ export const NavBar = ({
   isLogged,
 }) => {
   const navigate = useNavigate();
-  // Lee los roles del localStorage
   const roles = JSON.parse(localStorage.getItem("roles") || "[]");
   const isAdmin = roles.includes("ROLE_ADMIN");
-  //Me aseguro de cerrar sesión al pulsar el botón (que lo tengo donde muestro la navbar)
+
   const onLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("roles");
+    // Redirige al home y fuerza el refresco
+    navigate("/");
     window.location.reload();
   };
-  // console.log("Roles:", roles, "¿Es admin?:", isAdmin);
+
+  const offcanvasContent = (
+    <>
+      <div className="offcanvas-header">
+        <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
+          Menú
+        </h5>
+        <button
+          type="button"
+          className="btn-close btn-close-white"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div className="offcanvas-body d-flex flex-column">
+        <div className="mb-3">
+          <FiltroBusqueda onBuscar={onBuscar} />
+        </div>
+        <div className="mb-3">
+          <FiltroOrdenar onFiltrar={onFiltrar} />
+        </div>
+        <div className="mb-3">
+          <FiltroTalla onFiltrarTalla={onFiltrarTalla} />
+        </div>
+        <div className="mb-3">
+          <FiltroCategoria onFiltrarCategoria={onFiltrarCategoria} />
+        </div>
+        <ul className="navbar-nav mt-auto pt-3 border-top border-secondary">
+          {" "}
+          {!isLogged ? (
+            <>
+              <li className="nav-item mb-2">
+                <Link
+                  className="btn btn-outline-light w-100"
+                  to="/usuario/registro"
+                  data-bs-dismiss="offcanvas"
+                >
+                  Regístrate
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="btn btn-custom-primary w-100"
+                  to="/login"
+                  data-bs-dismiss="offcanvas"
+                >
+                  Iniciar sesión
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="nav-item mb-2">
+              <button
+                className="btn btn-custom-primary w-100" // Asumo que este es tu estilo morado
+                onClick={() => {
+                  onLogout();
+                  document
+                    .querySelector('[data-bs-dismiss="offcanvas"]')
+                    .click();
+                }}
+              >
+                Cerrar sesión
+              </button>
+            </li>
+          )}
+          {isAdmin && (
+            <li className="nav-item my-2">
+              <button
+                className="btn btn-warning w-100"
+                onClick={() => {
+                  navigate("/admin");
+                  document
+                    .querySelector('[data-bs-dismiss="offcanvas"]')
+                    .click();
+                }}
+              >
+                PANEL ADMIN
+              </button>
+            </li>
+          )}
+          <li className="nav-item">
+            <Link
+              className="btn btn-outline-light w-100"
+              to="/carrito"
+              data-bs-dismiss="offcanvas"
+            >
+              <i className="bi bi-cart-fill me-2"></i>Mi Carrito
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </>
+  );
+
   return (
-    <nav className="navbar navbar-expand-lg fixed-top border-bottom w-100 bg-dark">
+    <nav
+      className="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar-bg shadow-sm"
+      style={{
+        backgroundColor: "#212529" /* Color oscuro para el fondo del navbar */,
+      }}
+    >
       <div className="container">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
+          {" "}
+          {/* Enlace a la página de inicio */}
           <img
-            src="img/iconoTienda.png"
-            className="img-fluid"
-            id="iconoTienda"
-            alt="Logo"
+            src="/img/iconoTienda.png"
+            alt="Logo Tienda"
+            style={{ height: "40px" }}
           />
-        </a>
-        {/* Botón hamburguesa para offcanvas en móvil/tablet */}
+        </Link>
+        {/* Botón Hamburguesa para Offcanvas */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasNavbar"
           aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        {/* Menú lateral Offcanvas para móvil/tablet */}
-        <div
-          className="offcanvas offcanvas-start d-lg-none"
-          tabIndex="-1"
-          id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"
-        >
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-              Menú
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="offcanvas-body">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="navbar-search-filter-container mx-auto">
+            {" "}
+            {/* Contenedor para búsqueda */}
             <FiltroBusqueda onBuscar={onBuscar} />
-            <FiltroOrdenar onFiltrar={onFiltrar} />
-            <FiltroTalla onFiltrarTalla={onFiltrarTalla} />
-            <FiltroCategoria onFiltrarCategoria={onFiltrarCategoria} />
-            <ul className="navbar-nav align-items-center flex-column gap-2 mt-3">
-              {!isLogged ? (
-                <>
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link btn btn-outline-light btn-sm w-100"
-                      to="/usuario/registro"
-                    >
-                      Registrate
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link btn btn-outline-light btn-sm w-100"
-                      to="/login"
-                    >
-                      Iniciar sesión
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <li className="nav-item">
-                  <button
-                    className="nav-link btn btn-sm btn-morado-navbar"
-                    onClick={onLogout}
-                  >
-                    Cerrar sesión
-                  </button>
-                </li>
-              )}
-              {/* Solo muestra el botón ADMIN si es admin */}
-              {isAdmin && (
-                <li className="nav-item">
-                  <button
-                    className="nav-link btn btn-outline-warning btn-sm w-100"
-                    onClick={() => navigate("/admin")}
-                  >
-                    ADMIN
-                  </button>
-                </li>
-              )}
-              <Link
-                className="nav-link btn btn-sm btn-morado-navbar"
-                to="/carrito"
-              >
-                <i className="bi bi-cart" id="iconoCarro"></i>
-              </Link>
-            </ul>
           </div>
-        </div>
-        {/* Menú horizontal para escritorio (pantallas grandes) */}
-        <div
-          className="collapse navbar-collapse d-none d-lg-flex"
-          id="navbarSupportedContent"
-        >
-          <div className="d-flex align-items-stretch w-100 gap-2">
-            <div
-              className="d-flex align-items-stretch gap-2 flex-grow-1 flex-shrink-1"
-              style={{ maxWidth: "65%" }}
-            >
-              <FiltroBusqueda onBuscar={onBuscar} />
+
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+            {/* Los filtros dropdown ahora no necesitan ser li.nav-item.dropdown, 
+                pueden ser li.nav-item y el div.dropdown interno maneja el comportamiento */}
+            <li className="nav-item">
               <FiltroOrdenar onFiltrar={onFiltrar} />
+            </li>
+            <li className="nav-item">
               <FiltroTalla onFiltrarTalla={onFiltrarTalla} />
+            </li>
+            <li className="nav-item">
               <FiltroCategoria onFiltrarCategoria={onFiltrarCategoria} />
-            </div>
-            {/* Botones en un div aparte*/}
-            <div className="d-flex align-items-stretch gap-2 flex-shrink-0">
-              {!isLogged ? (
-                <>
-                  <Link
-                    className="nav-link btn btn-sm btn-morado-navbar"
-                    to="/usuario/registro"
-                  >
-                    Registrate
+            </li>
+            <li className="nav-item d-none d-lg-block">
+              <div className="vr mx-2 custom-vr"></div>
+            </li>
+            {!isLogged ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/usuario/registro">
+                    Regístrate
                   </Link>
+                </li>
+                <li className="nav-item">
                   <Link
-                    className="nav-link btn btn-sm btn-morado-navbar"
+                    className="btn btn-sm btn-custom-primary px-3"
                     to="/login"
                   >
                     Iniciar sesión
                   </Link>
-                </>
-              ) : (
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
                 <button
-                  className="nav-link btn btn-sm btn-morado-navbar"
+                  className="btn btn-sm btn-custom-primary px-3"
                   onClick={onLogout}
                 >
                   Cerrar sesión
                 </button>
-              )}
-              {/* Solo muestra el botón ADMIN si es admin*/}
-              {isAdmin && (
+              </li>
+            )}
+            {isAdmin && (
+              <li className="nav-item ms-lg-2">
                 <button
-                  className="nav-link btn btn-outline-warning btn-sm w-100"
+                  className="btn btn-sm btn-warning"
                   onClick={() => navigate("/admin")}
+                  title="Panel de Administración"
                 >
                   ADMIN
                 </button>
-              )}
-              <Link
-                className="nav-link btn btn-sm btn-morado-navbar"
-                to="/carrito"
-              >
-                <i className="bi bi-cart" id="iconoCarro"></i>
+              </li>
+            )}
+            <li className="nav-item ms-lg-2">
+              <Link className="nav-link p-1" to="/carrito" title="Mi Carrito">
+                <i className="bi bi-cart-fill fs-4 text-white"></i>
               </Link>
-            </div>
-          </div>
+            </li>
+          </ul>
+        </div>
+        <div
+          className="offcanvas offcanvas-start d-lg-none" // Solo visible en pantallas pequeñas
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+          style={{ backgroundColor: "#212529", color: "white" }} // Estilo del offcanvas
+        >
+          {offcanvasContent}
         </div>
       </div>
     </nav>

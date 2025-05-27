@@ -3,166 +3,239 @@ import { findAllCategorias } from "../../services/CategoriaService";
 import { findAllTallas } from "../../services/TallaService";
 
 const initialDataForm = {
+  id: 0,
   nombre: "",
   descripcion: "",
   precio: "",
   stock: "",
   talla: "",
   categoria: "",
-  imagen: null,
+  nombreImagen: "",
 };
 
 export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
   const [form, setForm] = useState(initialDataForm);
-  const { id, nombre, descripcion, precio, stock, talla, categoria } = form;
+  const {
+    id,
+    nombre,
+    descripcion,
+    precio,
+    stock,
+    talla,
+    categoria,
+    nombreImagen,
+  } = form;
   const [tallas, setTallas] = useState([]);
   const [categorias, setCategorias] = useState([]);
+
   useEffect(() => {
-    setForm(productoSelected || initialDataForm);
+    if (productoSelected && productoSelected.id > 0) {
+      setForm({
+        id: productoSelected.id,
+        nombre: productoSelected.nombre || "",
+        descripcion: productoSelected.descripcion || "",
+        precio: productoSelected.precio || "",
+        stock: productoSelected.stock || "",
+        categoria:
+          productoSelected.categoria?.id || productoSelected.categoria || "",
+        talla: productoSelected.talla?.id || productoSelected.talla || "",
+        nombreImagen: productoSelected.rutaImagen?.split("/").pop() || "",
+      });
+    } else {
+      setForm(initialDataForm);
+    }
   }, [productoSelected]);
 
-  // Cargo las tallas y categorias
   useEffect(() => {
-    const cargarTallas = async () => {
-      const response = await findAllTallas();
-      if (response && response.data) setTallas(response.data);
+    const cargarDependencias = async () => {
+      const [tallasRes, categoriasRes] = await Promise.all([
+        findAllTallas(),
+        findAllCategorias(),
+      ]);
+      if (tallasRes?.data) setTallas(tallasRes.data);
+      if (categoriasRes?.data) setCategorias(categoriasRes.data);
     };
-    const cargarCategorias = async () => {
-      const response = await findAllCategorias();
-      if (response && response.data) setCategorias(response.data);
-    };
-    cargarTallas();
-    cargarCategorias();
+    cargarDependencias();
   }, []);
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
+  };
+
   const handleFileChange = (event) => {
-    setForm({ ...form, imagen: event.target.files[0] });
+    setForm((prevForm) => ({
+      ...prevForm,
+      nombreImagen: event.target.files?.[0]?.name || "",
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!nombre || !descripcion || !precio || !stock || !talla || !categoria) {
+      alert("Debe rellenar todos los campos obligatorios del formulario.");
+      return;
+    }
+    const productoParaEnviar = {
+      ...(id > 0 && { id }),
+      nombre,
+      descripcion,
+      precio: parseFloat(precio),
+      stock: parseInt(stock),
+      categoria: { id: parseInt(categoria) },
+      talla: { id: parseInt(talla) },
+      rutaImagen: nombreImagen ? `/images/${nombreImagen}` : null,
+    };
+    handlerAdd(productoParaEnviar);
+    setForm(initialDataForm);
+    event.target.reset();
   };
 
   return (
-    <div className="d-flex justify-content-center">
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (
-            !nombre ||
-            !descripcion ||
-            !precio ||
-            !stock ||
-            !talla ||
-            !categoria
-          ) {
-            alert("Debe rellenar todos los campos del formulario");
-            return;
-          }
-          const producto = {
-            id,
-            nombre,
-            descripcion,
-            precio: parseFloat(precio),
-            stock: parseInt(stock),
-            categoria,
-            talla,
-          };
-          handlerAdd(producto);
-          setForm(initialDataForm);
-          event.target.reset();
-        }}
-      >
-        <div>
-          <div className="mt-1 mb-2">
-            <input
-              placeholder="Nombre"
-              name="nombre"
-              type="text"
-              value={nombre}
-              onChange={(event) =>
-                setForm({ ...form, nombre: event.target.value })
-              }
-            />
-          </div>
-          <div className="mb-2">
-            <input
-              placeholder="Descripcion"
-              name="descripcion"
-              type="text"
-              value={descripcion}
-              onChange={(event) =>
-                setForm({ ...form, descripcion: event.target.value })
-              }
-            />
-          </div>
-          <div className="mb-2">
-            <input
-              placeholder="Precio"
-              name="precio"
-              type="number"
-              value={precio}
-              onChange={(event) =>
-                setForm({ ...form, precio: event.target.value })
-              }
-            />
-          </div>
-          <div className="mb-2">
-            <input
-              placeholder="Stock"
-              name="stock"
-              type="number"
-              value={stock}
-              onChange={(event) =>
-                setForm({ ...form, stock: event.target.value })
-              }
-            />
-          </div>
-          <div className="mb-2">
-            <select
-              name="talla"
-              value={talla}
-              onChange={(event) =>
-                setForm({ ...form, talla: event.target.value })
-              }
-              required
-            >
-              <option value="">Selecciona una talla</option>
-              {tallas.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-2">
-            <select
-              name="categoria"
-              value={categoria}
-              onChange={(event) =>
-                setForm({ ...form, categoria: event.target.value })
-              }
-              required
-            >
-              <option value="">Selecciona una categoría</option>
-              {categorias.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-2">
-            <input
-              type="file"
-              name="imagen"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-          </div>
-          <div>
-            <button className="btn btn-primary" type="submit">
-              {form.id > 0 ? "Actualizar" : "Crear"}
-            </button>
-          </div>
+    <form
+      onSubmit={handleSubmit}
+      className="p-3 p-md-4 rounded admin-form-bg shadow"
+    >
+      <div className="mb-3">
+        <label htmlFor="nombreProducto" className="form-label form-label-sm">
+          Nombre
+        </label>
+        <input
+          type="text"
+          className="form-control form-control-sm admin-form-input"
+          id="nombreProducto"
+          placeholder="Nombre del producto"
+          name="nombre"
+          value={nombre}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label
+          htmlFor="descripcionProducto"
+          className="form-label form-label-sm"
+        >
+          Descripción
+        </label>
+        <textarea
+          className="form-control form-control-sm admin-form-input"
+          id="descripcionProducto"
+          placeholder="Descripción detallada"
+          name="descripcion"
+          value={descripcion}
+          onChange={handleInputChange}
+          rows="3"
+          required
+        ></textarea>
+      </div>
+      <div className="row gx-2">
+        <div className="col-md-6 mb-3">
+          <label htmlFor="precioProducto" className="form-label form-label-sm">
+            Precio (€)
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            className="form-control form-control-sm admin-form-input"
+            id="precioProducto"
+            placeholder="0.00"
+            name="precio"
+            value={precio}
+            onChange={handleInputChange}
+            required
+          />
         </div>
-      </form>
-    </div>
+        <div className="col-md-6 mb-3">
+          <label htmlFor="stockProducto" className="form-label form-label-sm">
+            Stock
+          </label>
+          <input
+            type="number"
+            className="form-control form-control-sm admin-form-input"
+            id="stockProducto"
+            placeholder="0"
+            name="stock"
+            value={stock}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+      </div>
+      <div className="row gx-2">
+        <div className="col-md-6 mb-3">
+          <label htmlFor="tallaProducto" className="form-label form-label-sm">
+            Talla
+          </label>
+          <select
+            className="form-select form-select-sm admin-form-input"
+            id="tallaProducto"
+            name="talla"
+            value={talla}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Seleccionar...</option>
+            {tallas.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-6 mb-3">
+          <label
+            htmlFor="categoriaProducto"
+            className="form-label form-label-sm"
+          >
+            Categoría
+          </label>
+          <select
+            className="form-select form-select-sm admin-form-input"
+            id="categoriaProducto"
+            name="categoria"
+            value={categoria}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Seleccionar...</option>
+            {categorias.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="mb-3">
+        <label
+          htmlFor="imagenFileProducto"
+          className="form-label form-label-sm"
+        >
+          Imagen (nombre de archivo)
+        </label>
+        <input
+          type="file"
+          className="form-control form-control-sm admin-form-input"
+          id="imagenFileProducto"
+          name="imagenFile"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        {nombreImagen && (
+          <small className="d-block mt-1 text-white-50">
+            Seleccionado: {nombreImagen}
+          </small>
+        )}
+      </div>
+      <button className="btn btn-custom-primary w-100" type="submit">
+        <i
+          className={`bi bi-${
+            id > 0 ? "pencil-square" : "plus-circle-fill"
+          } me-2`}
+        ></i>
+        {id > 0 ? "Actualizar Producto" : "Crear Producto"}
+      </button>
+    </form>
   );
 };

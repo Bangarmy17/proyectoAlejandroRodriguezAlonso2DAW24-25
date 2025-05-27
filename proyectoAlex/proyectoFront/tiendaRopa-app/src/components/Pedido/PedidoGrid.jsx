@@ -1,30 +1,32 @@
 import { PedidoDetail } from "./PedidoDetail";
+
 export const PedidoGrid = ({ handlerRemove, pedidos = [] }) => {
+  if (pedidos.length === 0) {
+    return (
+      <p className="text-center text-white-50">No hay pedidos para mostrar.</p>
+    );
+  }
   return (
-    <>
-      <div className="d-flex justify-content-center">
-        <table>
-          <thead>
-            <tr>
-              <th className="p-2">ID</th>
-              <th className="p-2">Productos</th>
-              <th className="p-2">Precio Total</th>
-              <th className="p-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pedidos.map((pedido) => {
-              return (
-                <PedidoDetail
-                  key={pedido.idPedido}
-                  handlerRemove={handlerRemove}
-                  pedido={pedido}
-                />
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </>
+    <div className="table-responsive admin-table-container rounded shadow">
+      <table className="table table-dark table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th>ID Pedido</th>
+            <th>Productos (Cantidad - Subtotal)</th>
+            <th>Precio Total</th>
+            <th className="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pedidos.map((pedido) => (
+            <PedidoDetail
+              key={pedido.idPedido || pedido.id}
+              handlerRemove={handlerRemove}
+              pedido={pedido}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };

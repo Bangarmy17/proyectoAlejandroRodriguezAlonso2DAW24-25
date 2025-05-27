@@ -21,3 +21,13 @@ export const borrarPedidoPorId = async (id) => {
   }
   return null;
 }
+// Creo un pedido a través de los productos del carrito del usuario
+export const crearPedidoDesdeCarrito = async (idUsuario) => {
+  try {
+    const response = await axios.post(`${baseUrl}/crearPedido/${idUsuario}`);
+    return response;
+  } catch (error) {
+    console.error("Error al crear el pedido desde el carrito:", error.response?.data || error.message);
+    throw error;
+  }
+};

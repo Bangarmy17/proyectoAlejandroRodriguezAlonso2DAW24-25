@@ -14,35 +14,24 @@ export const findAll = async () =>{
   return null;
 }
 //Peticion POST con la que podré crear los productos
-export const create = async ({nombre, descripcion, precio, stock, categoria, talla}) => {
+// {nombre, descripcion, precio, stock, categoria, talla, rutaImagen}
+export const create = async (producto) => { // producto es un objeto JS
   try {
-    const response = await axios.post(baseUrl, {
-      nombre,
-      descripcion,
-      precio,
-      stock,
-      categoria: { id: parseInt(categoria) },
-      talla: { id: parseInt(talla) }
-    });
+    const response = await axios.post(baseUrl, producto); 
     return response;
   } catch (error) {
     console.log("Error peticion POST: " + error);
   }
   return undefined;
 };
+
 //Peticion PUT con la que podré modificar los productos
-export const update = async ({id, nombre, descripcion, precio, stock, categoria, talla}) => {
+// {id, nombre, descripcion, precio, stock, categoria, talla, rutaImagen}
+export const update = async (producto) => { 
   try {
     const response = await axios.put(
-      baseUrl + "/modificarProductoPorId/" + id,
-      {
-        nombre,
-        descripcion,
-        precio,
-        stock,
-        categoria: { id: parseInt(categoria) },
-        talla: { id: parseInt(talla) }
-      }
+      `${baseUrl}/modificarProductoPorId/${producto.id}`, // Asumiendo que producto tiene .id
+      producto 
     );
     return response;
   } catch (error) {

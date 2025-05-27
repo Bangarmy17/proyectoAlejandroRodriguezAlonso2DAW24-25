@@ -1,187 +1,209 @@
-/* ----------- ESTILOS GENERALES APP PRINCIPAL ----------- */
-.app-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-/* .app-container main {
-  flex: 1;
-} */
-/* Barra de navegación */
-.app-container .navbar {
-  min-height: 40px;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-  background-color: rgb(52, 52, 52);
-}
-.navbar-nav .nav-link {
-  color: white;
-}
-.navbar-nav .nav-item {
-  background-color: rgb(116, 38, 116);
-  padding: 5px;
-  border-radius: 5px;
-}
-.btn-morado-navbar:hover,
-.btn-morado-navbar:focus {
-  background-color: #a259c4;
-  color: #fff;
-}
-.btn-morado-navbar {
-  background-color: rgb(116, 38, 116);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 16px;
-}
-.navbar-collapse {
-  align-items: center;
-  justify-content: space-between;
-}
-.dropdown .btn {
-  background-color: rgb(116, 38, 116);
-  color: white;
-}
-.dropdown .btn:hover {
-  background-color: rgb(116, 38, 116);
-  color: black;
+:root {
+  --custom-primary: #6f42c1; /* Morado principal */
+  --custom-primary-darker: #5a32a3;
+  --custom-secondary: #6c757d; /* Un gris para buttons */
+  --custom-bg-dark: #1e1e2f; /* Fondo principal oscuro */
+  --custom-navbar-bg: #161620; /* Navbar un poco más oscura */
+  --custom-card-bg: #2a2a3d; /* Fondo de tarjetas */
+  --custom-footer-bg: #101015;
+  --custom-text-light: #f0f0f8;
+  --custom-text-muted: #a0a0b0;
 }
 
-/* Tarjetas de productos */
-.app-container .card {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 220px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 0;
-  transition: transform 0.2s, box-shadow 0.2s;
-  align-items: center;
+body {
+  background-color: var(--custom-bg-dark) !important;
+  color: var(--custom-text-light) !important;
+  padding-top: 70px;
 }
 
-.card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+.app-bg {
+  background-color: var(--custom-bg-dark);
 }
-.app-container .card-img-top {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  margin: 0 10px;
-  border-radius: 10px 0 0 10px;
+.footer-bg {
+  background-color: var(--custom-footer-bg);
+}
+
+/* Navbar */
+.custom-navbar-bg {
+  background-color: var(--custom-navbar-bg) !important;
+}
+.navbar-logo-img {
+  height: 40px;
+}
+.navbar-search-filter {
+  width: 40%; /* ancho de la barra de búsqueda */
+}
+.navbar-search-filter .form-control {
+  /* Estilo para el input de búsqueda */
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--custom-text-light);
+}
+.navbar-search-filter .form-control::placeholder {
+  color: var(--custom-text-muted);
+}
+/* Separador */
+.custom-vr {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  width: 1px !important;
+  height: 20px !important;
   align-self: center;
 }
-.card-title {
-  color: #333333;
-  font-weight: bold;
-  font-size: 1.2rem;
-  max-height: 60px;
-}
-.card-body {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  padding: 15px;
-}
-.card-text {
-  color: #555555;
-  max-height: 60px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 1rem;
-}
-.mt-auto {
-  margin-top: auto !important;
-}
-.card .btn-primary {
-  background-color: rgb(116, 38, 116);
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-.card .btn-primary:not(.btn-sm) {
-  padding: 1px 12px;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.card .btn-primary.btn-sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.card .btn-primary:hover {
-  background-color: rgb(90, 29, 90);
-  color: white;
-}
-.card .btn i {
-  font-size: 20px;
-  color: rgb(116, 38, 116);
-}
-.card .btn:hover i {
-  color: rgb(90, 29, 90);
-}
-
-/* Iconos */
-#iconoCarro {
-  font-size: 25px;
-}
-#iconoBolsa {
-  font-size: 30px;
-}
-#iconoTienda {
-  width: 65px;
-  height: 65px;
-}
-
-/* ----------- ESTILOS FORMULARIOS LOGIN Y REGISTRO ----------- */
-body {
-  background-color: #30223b;
-}
-.form-container,
-.form-container-login,
-.form-container-registro {
-  max-width: 400px;
-  margin: 50px auto;
-  background-color: rgb(72, 72, 72) !important;
-  color: white !important;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.form-container-registro {
-  max-width: 650px;
-}
-
-.form-container .form-label,
-.form-container-login .form-label,
-.form-container-registro .form-label {
-  color: white !important;
-}
-
-.form-container .form-text,
-.form-container-login .form-text,
-.form-container-registro .form-text {
-  color: #cccccc !important;
-}
-
-.form-container .btn-primary,
-.form-container-login .btn-primary,
-.form-container-registro .btn-primary {
-  background-color: rgb(116, 38, 116) !important;
+.nav-item .dropdown-toggle {
+  /* Para los filtros de Ordenar, Talla, Categoría */
+  color: var(--custom-text-muted) !important;
+  background-color: transparent !important;
   border: none !important;
 }
+.nav-item .dropdown-toggle:hover,
+.nav-item .dropdown-toggle.show {
+  color: var(--custom-text-light) !important;
+}
+.nav-item .dropdown-menu {
+  background-color: var(--custom-navbar-bg);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.nav-item .dropdown-menu .dropdown-item {
+  color: var(--custom-text-muted);
+}
+.nav-item .dropdown-menu .dropdown-item:hover {
+  background-color: var(--custom-primary);
+  color: white;
+}
 
-.form-container .btn-primary:hover,
-.form-container-login .btn-primary:hover,
-.form-container-registro .btn-primary:hover {
-  background-color: rgb(90, 29, 90) !important;
+/* Botones personalizados */
+.btn-custom-primary {
+  background-color: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+  color: white !important;
+}
+.btn-custom-primary:hover {
+  background-color: var(--custom-primary-darker) !important;
+  border-color: var(--custom-primary-darker) !important;
+}
+.btn-outline-custom-secondary {
+  color: var(--custom-text-muted) !important;
+  border-color: var(--custom-secondary) !important;
+}
+.btn-outline-custom-secondary:hover {
+  color: white !important;
+  background-color: var(--custom-secondary) !important;
+  border-color: var(--custom-secondary) !important;
+}
+
+/* Tarjetas de Producto */
+.product-card-custom {
+  background-color: var(--custom-card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: var(--custom-text-light) !important;
+}
+.product-card-img-custom {
+  height: 200px;
+  object-fit: cover;
+}
+.product-card-title-custom {
+  color: var(--custom-text-light);
+  min-height: 2.5em;
+}
+.product-card-price-custom {
+  color: var(--custom-text-light) !important;
+}
+
+/* Tarjetas de Carrito */
+.cart-product-img-custom {
+  height: 150px;
+  object-fit: contain;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* --------------------------Panel Admin---------------------- */
+.admin-tab-nav .nav-link {
+  /* Estilo base para las pestañas */
+  color: var(--custom-text-muted);
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0.25rem 0.25rem 0 0;
+  padding: 0.75rem 1.25rem;
+  font-weight: 500;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+}
+.admin-tab-nav .nav-link:hover:not(.active) {
+  /* Hover en pestaña no activa */
+  color: var(--custom-text-light);
+  border-bottom-color: var(--custom-secondary);
+}
+.admin-tab-nav .nav-link.active {
+  /* Pestaña activa */
+  color: var(--custom-text-light) !important;
+  background-color: var(
+    --custom-card-bg
+  ) !important; /* Fondo como el de las tarjetas */
+  border-bottom-color: var(--custom-primary) !important;
+}
+
+.admin-tab-content-bg {
+  background-color: var(
+    --custom-card-bg
+  ); /* Fondo para el contenido de las pestañas */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-form-bg {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-form-input.form-control,
+.admin-form-input.form-select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--custom-text-light) !important;
+}
+.admin-form-input.form-select option {
+  background-color: var(--custom-card-bg);
+  color: var(--custom-text-light);
+}
+.admin-form-input.form-control::placeholder {
+  color: var(--custom-text-muted) !important;
+}
+.admin-form-input.form-control:focus,
+.admin-form-input.form-select:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--custom-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+.form-label-sm {
+  font-size: 0.875em;
+  color: var(--custom-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.admin-table-container {
+  background-color: var(--custom-card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.table.table-dark {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--custom-text-light);
+  --bs-table-border-color: rgba(255, 255, 255, 0.1);
+  --bs-table-striped-color: var(--custom-text-light);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.03);
+  --bs-table-hover-color: var(--custom-text-light);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.06);
+}
+.table th {
+  font-weight: 500;
+  color: var(--custom-text-muted);
+  border-bottom-width: 1px;
+}
+.table td small {
+  color: var(--custom-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* Propiedad estándar para compatibilidad */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

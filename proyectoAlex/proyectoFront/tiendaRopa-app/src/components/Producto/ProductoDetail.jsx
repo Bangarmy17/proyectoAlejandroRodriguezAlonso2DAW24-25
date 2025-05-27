@@ -3,27 +3,28 @@ export const ProductoDetail = ({
   handlerRemove,
   producto = {},
 }) => {
-  // console.log(producto);
   return (
     <tr>
-      <td className="p-2">{producto.nombre}</td>
-      <td className="p-2">{producto.descripcion}</td>
-      <td className="p-2">{producto.precio + " €"}</td>
-      <td className="p-2">{producto.stock}</td>
+      <td>{producto.nombre}</td>
       <td>
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => handlerUpdate(producto)}
-        >
-          Actualizar
-        </button>
+        <small>{producto.descripcion}</small>
       </td>
-      <td>
+      <td>{producto.precio?.toFixed(2)} €</td>
+      <td>{producto.stock}</td>
+      <td className="text-center">
         <button
-          className="btn btn-danger btn-sm"
-          onClick={() => handlerRemove(producto.id)}
+          className="btn btn-sm btn-outline-warning me-1 px-2 py-1"
+          onClick={() => handlerUpdate(producto)}
+          title="Actualizar"
         >
-          Borrar
+          <i className="bi bi-pencil-fill"></i>
+        </button>
+        <button
+          className="btn btn-sm btn-outline-danger px-2 py-1"
+          onClick={() => handlerRemove(producto.id)}
+          title="Borrar"
+        >
+          <i className="bi bi-trash3-fill"></i>
         </button>
       </td>
     </tr>

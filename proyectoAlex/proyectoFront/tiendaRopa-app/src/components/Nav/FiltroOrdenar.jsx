@@ -1,14 +1,18 @@
 export const FiltroOrdenar = ({ onFiltrar }) => (
-  <div className="dropdown mb-3 me-lg-3">
+  <div className="dropdown">
     <button
-      className="btn dropdown-toggle w-100"
+      className="btn btn-sm dropdown-toggle text-white-50"
       type="button"
+      id="dropdownMenuOrdenar"
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
       Ordenar por
     </button>
-    <ul className="dropdown-menu w-100">
+    <ul
+      className="dropdown-menu dropdown-menu-dark"
+      aria-labelledby="dropdownMenuOrdenar"
+    >
       <li>
         <button
           className="dropdown-item"

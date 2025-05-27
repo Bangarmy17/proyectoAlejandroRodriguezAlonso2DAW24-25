@@ -85,7 +85,7 @@ export const TiendaRopaApp = () => {
 
   return (
     <>
-      <div className="app-container">
+      <div className="d-flex flex-column min-vh-100 app-bg">
         <header className="mb-5">
           <NavBar
             onFiltrar={getProductos}
@@ -96,11 +96,11 @@ export const TiendaRopaApp = () => {
             onLogout={handleLogout}
           />
         </header>
-        <main className="container" style={{ paddingTop: "80px" }}>
+        <main className="container flex-grow-1 py-4 main-content-area">
           <CargarProd productos={productos} />
         </main>
-        <footer className="text-center">
-          <p>
+        <footer className="text-center py-3 text-white-50 footer-bg">
+          <p className="mb-0">
             © 2025 Tienda de Ropa creada por Alejandro Rodríguez Alonso. Todos
             los derechos reservados.
           </p>

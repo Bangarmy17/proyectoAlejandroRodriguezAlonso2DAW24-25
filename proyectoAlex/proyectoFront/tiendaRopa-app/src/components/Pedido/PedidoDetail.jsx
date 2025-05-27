@@ -1,24 +1,30 @@
 export const PedidoDetail = ({ handlerRemove, pedido = {} }) => (
   <tr>
-    <td className="p-2">{pedido.idPedido}</td>
-    <td className="p-2">
-      <ul style={{ margin: 0, paddingLeft: 16 }}>
-        {pedido.productos.map((producto, idx) => (
-          <li key={producto.nombreProducto + idx}>
-            {producto.nombreProducto} x {producto.cantidad} ={" "}
-            {(producto.precioProducto * producto.cantidad).toFixed(2)} €
-          </li>
-        ))}
-      </ul>
-    </td>
-    {/* con el toFixed formateo a dos decirmales */}
-    <td className="p-2">{pedido.precioTotal?.toFixed(2)} €</td>
+    <td>#{pedido.idPedido || pedido.id}</td>
     <td>
+      {pedido.productos && pedido.productos.length > 0 ? (
+        <ul className="list-unstyled mb-0 small">
+          {pedido.productos.map((item, idx) => (
+            <li key={idx}>
+              {item.nombreProducto} (x{item.cantidad}) -{" "}
+              <strong>
+                {(item.precioProducto * item.cantidad).toFixed(2)}€
+              </strong>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <span className="text-white-50">Sin detalles de productos</span>
+      )}
+    </td>
+    <td className="fw-bold">{pedido.precioTotal?.toFixed(2)} €</td>
+    <td className="text-center">
       <button
-        className="btn btn-danger btn-sm"
-        onClick={() => handlerRemove(pedido.idPedido)}
+        className="btn btn-sm btn-outline-danger px-2 py-1"
+        onClick={() => handlerRemove(pedido.idPedido || pedido.id)}
+        title="Borrar Pedido"
       >
-        Borrar
+        <i className="bi bi-trash3-fill"></i>
       </button>
     </td>
   </tr>
