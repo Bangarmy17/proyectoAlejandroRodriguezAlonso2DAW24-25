@@ -7,15 +7,57 @@ const initialDataForm = {
   direccion: "",
   userName: "",
   password: "",
+  // confirmPassword: "",
 };
 
 export const RegistroFrom = ({ handlerAdd }) => {
-  const [form, setForm] = useState(initialDataForm);
-  const { nombre, apellidos, email, direccion, userName, password } = form;
+  const [form, setForm] = useState(initialDataForm); // Estado para el formulario de registro
+  const [error, setError] = useState({}); // Para manejar errores de validación
+  // Campos del formulario
+  const {
+    nombre,
+    apellidos,
+    email,
+    direccion,
+    userName,
+    password,
+    // confirmPassword,
+  } = form;
+
+  // Limpiar el form
   useEffect(() => {
     setForm(initialDataForm);
   }, []);
-
+  // Validación de contraseña
+  // Las expresiones regulares las saque por internet son bastante comunes
+  const validarPassword = (pass) => {
+    const nuevoErrorPassword = {};
+    let esValido = true;
+    // lo seteo como false (osea no valido) si no cumple la validacion
+    if (pass.length < 8) {
+      // Verifica si la contraseña tiene al menos 8 caracteres
+      nuevoErrorPassword.minLength =
+        "La contraseña debe tener al menos 8 caracteres.";
+      esValido = false;
+    }
+    if (!/[A-Z]/.test(pass)) {
+      // Verifica si contiene al menos una mayúscula
+      nuevoErrorPassword.uppercase = "Debe contener al menos una mayúscula.";
+      esValido = false;
+    }
+    if (!/[a-z]/.test(pass)) {
+      // Verifica si contiene al menos una minúscula
+      nuevoErrorPassword.lowercase = "Debe contener al menos una minúscula.";
+      esValido = false;
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(pass)) {
+      // Verifica si contiene al menos un carácter especial
+      nuevoErrorPassword.specialChar =
+        "Debe contener al menos un carácter especial.";
+      esValido = false;
+    }
+    return { isValid, errors: nuevoErrorPassword };
+  };
   return (
     <div className="form-container form-container-registro">
       <h2 className="text-center">Registro de Usuario</h2>

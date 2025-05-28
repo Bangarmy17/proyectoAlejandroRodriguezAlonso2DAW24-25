@@ -8,8 +8,8 @@ const initialDataForm = {
   descripcion: "",
   precio: "",
   stock: "",
-  talla: "",
-  categoria: "",
+  tallaId: "",
+  categoriaId: "",
   nombreImagen: "",
 };
 
@@ -21,8 +21,8 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
     descripcion,
     precio,
     stock,
-    talla,
-    categoria,
+    tallaId,
+    categoriaId,
     nombreImagen,
   } = form;
   const [tallas, setTallas] = useState([]);
@@ -36,9 +36,9 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
         descripcion: productoSelected.descripcion || "",
         precio: productoSelected.precio || "",
         stock: productoSelected.stock || "",
-        categoria:
-          productoSelected.categoria?.id || productoSelected.categoria || "",
-        talla: productoSelected.talla?.id || productoSelected.talla || "",
+        categoriaId:
+          productoSelected.categoria?.id || productoSelected.idCategoria || "",
+        tallaId: productoSelected.talla?.id || productoSelected.idTalla || "",
         nombreImagen: productoSelected.rutaImagen?.split("/").pop() || "",
       });
     } else {
@@ -48,12 +48,16 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
 
   useEffect(() => {
     const cargarDependencias = async () => {
-      const [tallasRes, categoriasRes] = await Promise.all([
-        findAllTallas(),
-        findAllCategorias(),
-      ]);
-      if (tallasRes?.data) setTallas(tallasRes.data);
-      if (categoriasRes?.data) setCategorias(categoriasRes.data);
+      try {
+        const [tallasRes, categoriasRes] = await Promise.all([
+          findAllTallas(),
+          findAllCategorias(),
+        ]);
+        if (tallasRes?.data) setTallas(tallasRes.data);
+        if (categoriasRes?.data) setCategorias(categoriasRes.data);
+      } catch (error) {
+        console.error("Error al cargar tallas o categorías:", error);
+      }
     };
     cargarDependencias();
   }, []);
@@ -72,7 +76,14 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!nombre || !descripcion || !precio || !stock || !talla || !categoria) {
+    if (
+      !nombre ||
+      !descripcion ||
+      !precio ||
+      !stock ||
+      !tallaId ||
+      !categoriaId
+    ) {
       alert("Debe rellenar todos los campos obligatorios del formulario.");
       return;
     }
@@ -82,13 +93,13 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
       descripcion,
       precio: parseFloat(precio),
       stock: parseInt(stock),
-      categoria: { id: parseInt(categoria) },
-      talla: { id: parseInt(talla) },
+      idCategoria: parseInt(categoriaId),
+      idTalla: parseInt(tallaId),
       rutaImagen: nombreImagen ? `/images/${nombreImagen}` : null,
     };
     handlerAdd(productoParaEnviar);
     setForm(initialDataForm);
-    event.target.reset();
+    event.target.reset(); //resetea los campos
   };
 
   return (
@@ -170,8 +181,8 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
           <select
             className="form-select form-select-sm admin-form-input"
             id="tallaProducto"
-            name="talla"
-            value={talla}
+            name="tallaId"
+            value={tallaId}
             onChange={handleInputChange}
             required
           >
@@ -193,8 +204,8 @@ export const CreacionProductoForm = ({ productoSelected, handlerAdd }) => {
           <select
             className="form-select form-select-sm admin-form-input"
             id="categoriaProducto"
-            name="categoria"
-            value={categoria}
+            name="categoriaId"
+            value={categoriaId}
             onChange={handleInputChange}
             required
           >

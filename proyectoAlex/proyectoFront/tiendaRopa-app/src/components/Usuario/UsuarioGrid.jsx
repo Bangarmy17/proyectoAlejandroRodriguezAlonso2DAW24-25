@@ -7,7 +7,7 @@ export const UsuarioGrid = ({ handlerRemove, usuarios = [] }) => {
           <thead>
             <tr>
               <th className="p-2">Correo</th>
-              <th className="p-2">Password</th>
+              <th className="p-2">Password (hasheada con JWT)</th>
               <th className="p-2">Nombre de Usuario</th>
               <th className="p-2">Borrar</th>
             </tr>

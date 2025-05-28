@@ -202,7 +202,7 @@ body {
   color: var(--custom-text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  line-clamp: 2; /* Propiedad estándar para compatibilidad */
+  line-clamp: 2; /* Propiedad estándar para compatibilidad (si no lo ponia salía un error en el editor y me daba toc)*/
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

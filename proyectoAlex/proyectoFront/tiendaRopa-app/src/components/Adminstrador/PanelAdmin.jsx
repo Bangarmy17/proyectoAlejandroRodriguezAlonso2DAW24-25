@@ -1,3 +1,7 @@
+// PanelAdmin.js
+// (Tu código actual de PanelAdmin.js se mantiene como lo proporcionaste la última vez.
+// La clave es lo que sucede dentro de CreacionProductoForm con la prop productoSelected)
+
 import { useEffect, useState } from "react";
 import {
   create,
@@ -28,13 +32,14 @@ export const PanelAdmin = () => {
     descripcion: "",
     precio: "",
     stock: "",
-    categoria: "",
-    talla: "",
+    categoria: null, // Inicializar como null o un objeto vacío si es un objeto
+    talla: null, // Inicializar como null o un objeto vacío si es un objeto
     rutaImagen: "",
   });
-  const [activeTab, setActiveTab] = useState("productos"); // Pestaña activa por defecto
 
-  const fetchData = async (type) => {
+  const [activeTab, setActiveTab] = useState("productos");
+
+  const obtenerInfo = async (type) => {
     try {
       let result;
       if (type === "productos") result = await findAll();
@@ -54,24 +59,33 @@ export const PanelAdmin = () => {
   };
 
   useEffect(() => {
-    fetchData("productos");
-    fetchData("usuarios");
-    fetchData("pedidos");
+    obtenerInfo("productos");
+    obtenerInfo("usuarios");
+    obtenerInfo("pedidos");
   }, []);
 
-  const handlerAddProducto = async (producto) => {
-    const isUpdate = producto.id && producto.id > 0;
-    const response = isUpdate ? await update(producto) : await create(producto);
+  const handlerAddProducto = async (productoDataFromForm) => {
+    const productoParaEnviar = {
+      ...productoDataFromForm,
+      ...(productoSelected.id > 0 && { id: productoSelected.id }),
+    };
+
+    const isUpdate = productoParaEnviar.id && productoParaEnviar.id > 0;
+    const response = isUpdate
+      ? await update(productoParaEnviar)
+      : await create(productoParaEnviar);
+
     if (response?.data) {
-      fetchData("productos");
+      obtenerInfo("productos");
       setProductoSelected({
+        // Resetear productoSelected a su estado inicial
         id: 0,
         nombre: "",
         descripcion: "",
         precio: "",
         stock: "",
-        categoria: "",
-        talla: "",
+        categoria: null,
+        talla: null,
         rutaImagen: "",
       });
     } else {
@@ -83,23 +97,24 @@ export const PanelAdmin = () => {
 
   const handlerRemoveProducto = async (id) => {
     await remove(id);
-    fetchData("productos");
+    obtenerInfo("productos");
   };
 
-  const handlerProductoSelected = (producto) => {
-    setProductoSelected({ ...producto });
-    if (activeTab !== "productos") setActiveTab("productos"); // Cambia a la pestaña de productos si se selecciona uno para editar
+  const handlerProductoSelected = (productoDelGrid) => {
+    // console.log("Producto del Grid para editar:", JSON.stringify(productoDelGrid, null, 2));
+    setProductoSelected({ ...productoDelGrid });
+    if (activeTab !== "productos") setActiveTab("productos");
   };
 
   const handlerRemoveUsuario = async (id) => {
     await borrarUsuarioPorId(id);
-    fetchData("usuarios");
+    obtenerInfo("usuarios");
   };
 
   const handlerRemovePedido = async (id) => {
     try {
       await borrarPedidoPorId(id);
-      fetchData("pedidos");
+      obtenerInfo("pedidos");
     } catch (error) {
       alert("Error al borrar el pedido.");
     }

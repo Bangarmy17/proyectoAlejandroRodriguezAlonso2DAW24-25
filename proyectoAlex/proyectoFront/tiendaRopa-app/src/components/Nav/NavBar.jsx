@@ -5,17 +5,19 @@ import { FiltroTalla } from "./FiltroTalla";
 import { FiltroCategoria } from "./FiltroCategoria";
 
 export const NavBar = ({
-  onFiltrar,
-  onFiltrarCategoria,
-  onFiltrarTalla,
-  onBuscar,
-  isLogged,
+  onFiltrar, //filtros de precio y alfabeticamente
+  onFiltrarCategoria, //filtro de categorías
+  onFiltrarTalla, //filtro de tallas
+  onBuscar, //filtro de búsqueda aun no implementado
+  isLogged, //estado de si el usuario está logueado o no
 }) => {
-  const navigate = useNavigate();
-  const roles = JSON.parse(localStorage.getItem("roles") || "[]");
-  const isAdmin = roles.includes("ROLE_ADMIN");
+  const navigate = useNavigate(); //no se si lo comenté en otro lado pero sirve para redirigir a otras rutas
+  const roles = JSON.parse(localStorage.getItem("roles") || "[]"); // Obtiene los roles del usuario desde el localStorage
+  const isAdmin = roles.includes("ROLE_ADMIN"); // Verifica si el usuario es administrador
 
+  // Función para manejar el cierre de sesión
   const onLogout = () => {
+    //Asi resumido se eliminan los datos del localStorage para asegurarme el cierre de sesión
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("roles");
@@ -24,6 +26,7 @@ export const NavBar = ({
     window.location.reload();
   };
 
+  // Con offcanvas (propiedad de Bootstrap) me hace la vida más fácil para el menú responsive
   const offcanvasContent = (
     <>
       <div className="offcanvas-header">
@@ -51,7 +54,6 @@ export const NavBar = ({
           <FiltroCategoria onFiltrarCategoria={onFiltrarCategoria} />
         </div>
         <ul className="navbar-nav mt-auto pt-3 border-top border-secondary">
-          {" "}
           {!isLogged ? (
             <>
               <li className="nav-item mb-2">
@@ -74,19 +76,26 @@ export const NavBar = ({
               </li>
             </>
           ) : (
-            <li className="nav-item mb-2">
-              <button
-                className="btn btn-custom-primary w-100" // Asumo que este es tu estilo morado
-                onClick={() => {
-                  onLogout();
-                  document
-                    .querySelector('[data-bs-dismiss="offcanvas"]')
-                    .click();
-                }}
-              >
-                Cerrar sesión
-              </button>
-            </li>
+            <>
+              <li className="nav-item mb-2">
+                <Link
+                  className="btn btn-info w-100"
+                  to="/perfil"
+                  data-bs-dismiss="offcanvas"
+                >
+                  <i className="bi bi-person-circle me-2"></i>Mi Perfil
+                </Link>
+              </li>
+              <li className="nav-item mb-2">
+                <button
+                  className="btn btn-custom-primary w-100"
+                  onClick={onLogout}
+                  data-bs-dismiss="offcanvas"
+                >
+                  Cerrar sesión
+                </button>
+              </li>
+            </>
           )}
           {isAdmin && (
             <li className="nav-item my-2">
@@ -116,17 +125,15 @@ export const NavBar = ({
       </div>
     </>
   );
-
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar-bg shadow-sm"
       style={{
-        backgroundColor: "#212529" /* Color oscuro para el fondo del navbar */,
+        backgroundColor: "#212529",
       }}
     >
       <div className="container">
         <Link className="navbar-brand" to="/">
-          {" "}
           {/* Enlace a la página de inicio */}
           <img
             src="/img/iconoTienda.png"
@@ -147,14 +154,10 @@ export const NavBar = ({
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="navbar-search-filter-container mx-auto">
-            {" "}
-            {/* Contenedor para búsqueda */}
             <FiltroBusqueda onBuscar={onBuscar} />
           </div>
 
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-            {/* Los filtros dropdown ahora no necesitan ser li.nav-item.dropdown, 
-                pueden ser li.nav-item y el div.dropdown interno maneja el comportamiento */}
             <li className="nav-item">
               <FiltroOrdenar onFiltrar={onFiltrar} />
             </li>
@@ -184,14 +187,23 @@ export const NavBar = ({
                 </li>
               </>
             ) : (
-              <li className="nav-item">
-                <button
-                  className="btn btn-sm btn-custom-primary px-3"
-                  onClick={onLogout}
-                >
-                  Cerrar sesión
-                </button>
-              </li>
+              <>
+                {/* Usuario Logueado en Navbar Escritorio */}
+                <li className="nav-item">
+                  {/* Icono de Perfil */}
+                  <Link className="nav-link p-1" to="/perfil" title="Mi Perfil">
+                    <i className="bi bi-person-circle fs-4 text-white"></i>
+                  </Link>
+                </li>
+                <li className="nav-item ms-lg-2">
+                  <button
+                    className="btn btn-sm btn-custom-primary px-3"
+                    onClick={onLogout}
+                  >
+                    Cerrar sesión
+                  </button>
+                </li>
+              </>
             )}
             {isAdmin && (
               <li className="nav-item ms-lg-2">
