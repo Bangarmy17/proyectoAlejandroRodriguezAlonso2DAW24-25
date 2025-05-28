@@ -5,6 +5,7 @@ import com.dwes.ApiRestBackEnd.dto.ProductoPedidoRequestDTO;
 import com.dwes.ApiRestBackEnd.dto.ProductoUserRequestDTO;
 import com.dwes.ApiRestBackEnd.model.*;
 import com.dwes.ApiRestBackEnd.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +81,7 @@ public class PedidoService {
         pedido.setPrecioTotal(precioTotal);
         pedido.setFecha_registro(LocalDateTime.now());
         Pedido pedidoGuardado = pedidoRepository.save(pedido);
-        //System.out.println("Pedido guardado con ID: " + pedidoGuardado.getId());
+        // System.out.println("Pedido guardado con ID: " + pedidoGuardado.getId());
         // Transferir productos del carrito al pedido
         for (Carrito item : carrito) {
             RealizarPedido realizarPedido = new RealizarPedido();
@@ -89,7 +90,7 @@ public class PedidoService {
             realizarPedido.setCantidad(item.getCantidad());
             realizarPedido.setSubtotal(item.getCantidad() * item.getProducto().getPrecio());
             realizarPedidoRepository.save(realizarPedido);
-            //Aquí lo que hago es que se va a reducir el stock de cada producto
+            // Aquí lo que hago es que se va a reducir el stock de cada producto
             // (ya que estoy dentro del bucle que recorre el carrito) en base a la cantidad que el
             // usuario seleccionó de cada producto que va a comprar
             Producto producto = item.getProducto();
@@ -108,6 +109,17 @@ public class PedidoService {
         carritoRepository.deleteByUsuarioId(idUsuario);
         System.out.println("Carrito vaciado para el usuario: " + idUsuario);
         return pedidoGuardado;
+    }
+    //GET
+    @Transactional(readOnly = true)
+    public List<PedidoRequestDTO> obtenerPedidosPorUsuario(Long idUsuario) {
+        //Podría verficiar si el usuario existe pero dado que este metodo
+        // solo se va a ejecutar en el front en una ventana que solo se
+        // puede acceder si el usuario a iniciado sesion pues considero que no me hace falta
+        List<Pedido> pedidos = pedidoRepository.findByUsuarioId(idUsuario);
+        return pedidos.stream()
+                .map(this::mapToRequestDTO)
+                .collect(Collectors.toList());
     }
     //GET
     @Transactional(readOnly = true)

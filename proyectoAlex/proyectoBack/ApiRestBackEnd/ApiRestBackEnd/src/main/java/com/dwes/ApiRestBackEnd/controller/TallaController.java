@@ -3,12 +3,13 @@ package com.dwes.ApiRestBackEnd.controller;
 import com.dwes.ApiRestBackEnd.model.Talla;
 import com.dwes.ApiRestBackEnd.service.TallaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173/" ,originPatterns = "*")
 @RestController
 @RequestMapping("/tallas")
 public class TallaController {
@@ -18,7 +19,6 @@ public class TallaController {
     public TallaController(TallaService tallaService){
         this.tallaService = tallaService;
     }
-
     @GetMapping
     public List<Talla> findTallas(){
         return tallaService.findTallas();

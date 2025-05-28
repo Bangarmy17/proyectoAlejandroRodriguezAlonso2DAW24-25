@@ -23,7 +23,6 @@ public class CarritoController {
     public CarritoController(CarritoService carritoService){
         this.carritoService = carritoService;
     }
-
     //Con este metodo lo que voy a hacer es cargar la informacion de cada producto
     //que X usuario haya agregado al carrito
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
